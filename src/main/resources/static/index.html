@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link rel="stylesheet" href="./node/node_modules/nes.css/css/nes.css">
+    <link rel="stylesheet" href="font.css">
+    <style>
+        /* 加载动画全屏居中样式 */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: white; /* 背景色覆盖页面 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* 确保在最上层 */
+            transition: opacity 0.8s ease-out; /* 渐隐过渡效果 */
+        }
+
+        .main-content {
+            opacity: 0; /* 初始透明 */
+            transition: opacity 0.8s ease-in; /* 渐显过渡效果 */
+            visibility: hidden; /* 初始隐藏（不占空间） */
+        }
+
+        /* 加载元素样式补充 */
+        .color {
+            width: 12px;
+            height: 12px;
+            border-radius: 4px;
+            background: #ff4444;
+        }
+    </style>
+
+</head>
+<body>
+<div class="loader-container" style="flex-direction: column; gap: 30px;">
+    <div id="ghost">
+        <div id="red">
+            <div id="pupil"></div>
+            <div id="pupil1"></div>
+            <div id="eye"></div>
+            <div id="eye1"></div>
+            <div id="top0"></div>
+            <div id="top1"></div>
+            <div id="top2"></div>
+            <div id="top3"></div>
+            <div id="top4"></div>
+            <div id="st0"></div>
+            <div id="st1"></div>
+            <div id="st2"></div>
+            <div id="st3"></div>
+            <div id="st4"></div>
+            <div id="st5"></div>
+            <div id="an1"></div>
+            <div id="an2"></div>
+            <div id="an3"></div>
+            <div id="an4"></div>
+            <div id="an5"></div>
+            <div id="an6"></div>
+            <div id="an7"></div>
+            <div id="an8"></div>
+            <div id="an9"></div>
+            <div id="an10"></div>
+            <div id="an11"></div>
+            <div id="an12"></div>
+            <div id="an13"></div>
+            <div id="an14"></div>
+            <div id="an15"></div>
+            <div id="an16"></div>
+            <div id="an17"></div>
+            <div id="an18"></div>
+        </div>
+        <div id="shadow"></div>
+    </div>
+    <div class="loader">
+        <div class="container">
+            <div class="carousel">
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+                <div class="love"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="carousel">
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+                <div class="death"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="carousel">
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+                <div class="robots"></div>
+            </div>
+        </div>
+    </div>
+    <div class="loading" style="
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: -1;
+        transform: scale(3);
+        transform-origin: top left;
+    ">
+        <div class="loading-wide">
+            <div class="l1 color"></div>
+            <div class="l2 color"></div>
+            <div class="e1 color animation-effect-light"></div>
+            <div class="e2 color animation-effect-light-d"></div>
+            <div class="e3 animation-effect-rot">X</div>
+            <div class="e4 color animation-effect-light"></div>
+            <div class="e5 color animation-effect-light-d"></div>
+            <div class="e6 animation-effect-scale">*</div>
+            <div class="e7 color"></div>
+            <div class="e8 color"></div>
+        </div>
+    </div>
+</div>
+
+<!-- 主内容区域 -->
+<div class="main-content">
+    <h1>你好</h1>
+    <div class="lists">
+        <ul class="nes-list is-disc">
+            <li>Good morning.</li>
+            <li>Thou hast had a good night's sleep, I hope.你好</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // 平滑切换加载动画和主内容
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(() => {
+            const loader = document.querySelector('.loader-container');
+            const mainContent = document.querySelector('.main-content');
+
+            // 加载动画渐隐
+            loader.style.opacity = '0';
+
+            // 等待渐隐动画结束后显示主内容
+            setTimeout(() => {
+                loader.style.visibility = 'hidden'; // 隐藏加载容器（不占空间）
+                mainContent.style.visibility = 'visible'; // 显示主内容容器
+                mainContent.style.opacity = '1'; // 主内容渐显
+            }, 800); // 与CSS过渡时间保持一致
+        }, 5000);
+    });
+</script>
+</body>
+</html>
