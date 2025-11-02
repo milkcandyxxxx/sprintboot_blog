@@ -1,11 +1,38 @@
-@font-face {
-    font-family: milk;
-    src: url("../fonts/milk.ttf");
+(function () {
+    const style = document.createElement('style');
+    style.textContent = `
+ .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.8s ease-out;
+    }
+.main{
+    opacity: 0;
+    transition: opacity 0.8s ease-in;
+    visibility: hidden;
+    padding: 20px;
 }
-*{
-    font-family:milk;
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease-out;
 }
-/* From Uiverse.io by StealthWorm爱死机加载组件 */
 .loader {
     display: flex;
     position: relative;
@@ -16,7 +43,6 @@
     width: 200px;
     overflow: hidden;
 }
-
 .container {
     width: 100%;
     display: flex;
@@ -25,7 +51,6 @@
     position: relative;
     align-items: center;
 }
-
 .carousel {
     display: flex;
     gap: 1rem;
@@ -35,28 +60,24 @@
     transform-origin: center;
     animation-delay: 2s;
 }
-
 .loader .container:nth-child(3) {
     justify-content: flex-start;
     justify-items: flex-start;
     animation: scroll-up 4s infinite ease-in-out;
     animation-delay: 3s;
 }
-
 .loader .container:nth-child(2) {
     justify-content: flex-end;
     justify-items: flex-end;
     animation: scroll-down 4s infinite ease-in-out;
     animation-delay: 3s;
 }
-
 .loader .container:nth-child(1) {
     justify-content: flex-end;
     justify-items: flex-end;
     animation: scroll-down 3s infinite ease-in-out;
     animation-delay: 3s;
 }
-
 .love {
     background: red;
     display: flex;
@@ -70,7 +91,6 @@
     transform: rotate(45deg);
     animation-delay: 2s;
 }
-
 .love::before, .love::after {
     content: '';
     position: absolute;
@@ -79,15 +99,12 @@
     border-radius: 50%;
     background: red;
 }
-
 .love::before {
     left: -16px;
 }
-
 .love::after {
     top: -16px;
 }
-
 .death {
     display: flex;
     width: 100%;
@@ -98,7 +115,6 @@
     animation: rotation 3s infinite ease-in-out;
     animation-delay: 1s;
 }
-
 .death:after {
     content: '';
     height: 63px;
@@ -108,7 +124,6 @@
     border-radius: 8px;
     top: -4px;
 }
-
 .death:before {
     content: '';
     height: 60px;
@@ -116,11 +131,9 @@
     border-left: 12px solid red;
     transform: rotate(-45deg);
 }
-
 .loader:hover {
     animation: none;
 }
-
 .robots {
     display: flex;
     width: 100%;
@@ -131,7 +144,6 @@
     padding: 8px;
     animation-delay: 5s;
 }
-
 .robots::after {
     content: '';
     width: 12px;
@@ -143,7 +155,6 @@
     animation-delay: 2s;
     animation: blink 0.5s 2 forwards;
 }
-
 .robots::before {
     content: '';
     width: 12px;
@@ -155,68 +166,54 @@
     animation-delay: 2s;
     animation: blink 0.5s 2 forwards;
 }
-
 @keyframes scroll-up {
     0% {
         transform: translateY(0);
         filter: blur(0);
     }
-
     30% {
         transform: translateY(-150%);
         filter: blur(10px);
     }
-
     60% {
         transform: translateY(0);
         filter: blur(0px);
     }
 }
-
 @keyframes scroll-down {
     0% {
         transform: translateY(0);
         filter: blur(0);
     }
-
     30% {
         transform: translateY(150%);
         filter: blur(10px);
     }
-
     60% {
         transform: translateY(0);
         filter: blur(0px);
     }
 }
-
 @keyframes rotation {
     20%, 100% {
         transform: rotate(180deg);
     }
 }
-
 @keyframes blink {
     0% {
         height: 0;
     }
-
     20% {
         height: 12px;
     }
-
     100% {
         height: 12px;
     }
 }
-/*############*/
-/*吃豆人加载*/
-/* From Uiverse.io by BlackisPlay */
 #ghost {
     position: relative;
     scale: 0.8;
 }
-
 #red {
     animation: upNDown infinite 0.5s;
     position: relative;
@@ -243,7 +240,6 @@
     "st0 st0 an4 st1 an7 st2 an10 an10 st3 an13 st4 an16 st5 st5"
     "an1 an2 an3 an5 an6 an8 an9 an9 an11 an12 an14 an15 an17 an18";
 }
-
 @keyframes upNDown {
     0%,
     49% {
@@ -254,7 +250,6 @@
         transform: translateY(-10px);
     }
 }
-
 #top0,
 #top1,
 #top2,
@@ -268,131 +263,103 @@
 #st5 {
     background-color: red;
 }
-
 #top0 {
     grid-area: top0;
 }
-
 #top1 {
     grid-area: top1;
 }
-
 #top2 {
     grid-area: top2;
 }
-
 #top3 {
     grid-area: top3;
 }
-
 #top4 {
     grid-area: top4;
 }
-
 #st0 {
     grid-area: st0;
 }
-
 #st1 {
     grid-area: st1;
 }
-
 #st2 {
     grid-area: st2;
 }
-
 #st3 {
     grid-area: st3;
 }
-
 #st4 {
     grid-area: st4;
 }
-
 #st5 {
     grid-area: st5;
 }
-
 #an1 {
     grid-area: an1;
     animation: flicker0 infinite 0.5s;
 }
-
 #an18 {
     grid-area: an18;
     animation: flicker0 infinite 0.5s;
 }
-
 #an2 {
     grid-area: an2;
     animation: flicker1 infinite 0.5s;
 }
-
 #an17 {
     grid-area: an17;
     animation: flicker1 infinite 0.5s;
 }
-
 #an3 {
     grid-area: an3;
     animation: flicker1 infinite 0.5s;
 }
-
 #an16 {
     grid-area: an16;
     animation: flicker1 infinite 0.5s;
 }
-
 #an4 {
     grid-area: an4;
     animation: flicker1 infinite 0.5s;
 }
-
 #an15 {
     grid-area: an15;
     animation: flicker1 infinite 0.5s;
 }
-
 #an6 {
     grid-area: an6;
     animation: flicker0 infinite 0.5s;
 }
-
 #an12 {
     grid-area: an12;
     animation: flicker0 infinite 0.5s;
 }
-
 #an7 {
     grid-area: an7;
     animation: flicker0 infinite 0.5s;
 }
-
 #an13 {
     grid-area: an13;
     animation: flicker0 infinite 0.5s;
 }
-
 #an9 {
     grid-area: an9;
     animation: flicker1 infinite 0.5s;
 }
-
 #an10 {
     grid-area: an10;
     animation: flicker1 infinite 0.5s;
 }
-
 #an8 {
     grid-area: an8;
     animation: flicker0 infinite 0.5s;
 }
-
 #an11 {
     grid-area: an11;
     animation: flicker0 infinite 0.5s;
 }
-
 @keyframes flicker0 {
     0%,
     49% {
@@ -403,7 +370,6 @@
         background-color: transparent;
     }
 }
-
 @keyframes flicker1 {
     0%,
     49% {
@@ -414,7 +380,6 @@
         background-color: red;
     }
 }
-
 #eye {
     width: 40px;
     height: 50px;
@@ -422,7 +387,6 @@
     top: 30px;
     left: 10px;
 }
-
 #eye::before {
     content: "";
     background-color: white;
@@ -432,7 +396,6 @@
     display: block;
     position: absolute;
 }
-
 #eye::after {
     content: "";
     background-color: white;
@@ -442,7 +405,6 @@
     display: block;
     position: absolute;
 }
-
 #eye1 {
     width: 40px;
     height: 50px;
@@ -450,7 +412,6 @@
     top: 30px;
     right: 30px;
 }
-
 #eye1::before {
     content: "";
     background-color: white;
@@ -460,7 +421,6 @@
     display: block;
     position: absolute;
 }
-
 #eye1::after {
     content: "";
     background-color: white;
@@ -470,7 +430,6 @@
     display: block;
     position: absolute;
 }
-
 #pupil {
     width: 20px;
     height: 20px;
@@ -481,7 +440,6 @@
     z-index: 1;
     animation: eyesMovement infinite 3s;
 }
-
 #pupil1 {
     width: 20px;
     height: 20px;
@@ -492,7 +450,6 @@
     z-index: 1;
     animation: eyesMovement infinite 3s;
 }
-
 @keyframes eyesMovement {
     0%,
     49% {
@@ -506,7 +463,6 @@
         transform: translateX(0px);
     }
 }
-
 #shadow {
     background-color: black;
     width: 140px;
@@ -518,7 +474,6 @@
     top: 80%;
     animation: shadowMovement infinite 0.5s;
 }
-
 @keyframes shadowMovement {
     0%,
     49% {
@@ -529,9 +484,6 @@
         opacity: 0.2;
     }
 }
-/*###########*/
-
-/* From Uiverse.io by TemRevil */
 .loading {
     display: flex;
     justify-content: center;
@@ -548,14 +500,12 @@
 .color {
     background-color: #3395ff;
 }
-
 .l1 {
     width: 15px;
     height: 65px;
     position: absolute;
     animation: move-h 1.2s infinite cubic-bezier(0.65, 0.05, 0.36, 1);
 }
-
 .l2 {
     width: 15px;
     height: 60px;
@@ -563,7 +513,6 @@
     transform: rotate(90deg);
     animation: move-v 1.2s infinite cubic-bezier(0.65, 0.05, 0.36, 1);
 }
-
 @keyframes move-h {
     0% {
         top: 0;
@@ -604,7 +553,6 @@
         opacity: 0;
     }
 }
-
 .animation-effect-light {
     animation: effect 0.2s 0.1s infinite linear;
 }
@@ -617,7 +565,6 @@
 .animation-effect-scale {
     animation: scale 0.8s infinite cubic-bezier(0.65, 0.05, 0.36, 1);
 }
-
 @keyframes effect {
     0% {
         opacity: 0;
@@ -754,3 +701,130 @@
         width: 0px;
     }
 }
+    `;
+    document.head.appendChild(style);
+    const loaderDOM = `
+        <div class="loader-container" style="flex-direction: column; gap: 30px;">
+            <div id="ghost">
+                <div id="red">
+                    <div id="pupil"></div>
+                    <div id="pupil1"></div>
+                    <div id="eye"></div>
+                    <div id="eye1"></div>
+                    <div id="top0"></div>
+                    <div id="top1"></div>
+                    <div id="top2"></div>
+                    <div id="top3"></div>
+                    <div id="top4"></div>
+                    <div id="st0"></div>
+                    <div id="st1"></div>
+                    <div id="st2"></div>
+                    <div id="st3"></div>
+                    <div id="st4"></div>
+                    <div id="st5"></div>
+                    <div id="an1"></div>
+                    <div id="an2"></div>
+                    <div id="an3"></div>
+                    <div id="an4"></div>
+                    <div id="an5"></div>
+                    <div id="an6"></div>
+                    <div id="an7"></div>
+                    <div id="an8"></div>
+                    <div id="an9"></div>
+                    <div id="an10"></div>
+                    <div id="an11"></div>
+                    <div id="an12"></div>
+                    <div id="an13"></div>
+                    <div id="an14"></div>
+                    <div id="an15"></div>
+                    <div id="an16"></div>
+                    <div id="an17"></div>
+                    <div id="an18"></div>
+                </div>
+                <div id="shadow"></div>
+            </div>
+            <div class="loader">
+                <div class="container">
+                    <div class="carousel">
+                        <div class="love"></div>
+                        <div class="love"></div>
+                        <div class="love"></div>
+                        <div class="love"></div>
+                        <div class="love"></div>
+                        <div class="love"></div>
+                        <div class="love"></div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="carousel">
+                        <div class="death"></div>
+                        <div class="death"></div>
+                        <div class="death"></div>
+                        <div class="death"></div>
+                        <div class="death"></div>
+                        <div class="death"></div>
+                        <div class="death"></div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="carousel">
+                        <div class="robots"></div>
+                        <div class="robots"></div>
+                        <div class="robots"></div>
+                        <div class="robots"></div>
+                        <div class="robots"></div>
+                        <div class="robots"></div>
+                        <div class="robots"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="loading" style="
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                z-index: -1;
+                transform: scale(3);
+                transform-origin: top left;
+            ">
+                <div class="loading-wide">
+                    <div class="l1 color"></div>
+                    <div class="l2 color"></div>
+                    <div class="e1 color animation-effect-light"></div>
+                    <div class="e2 color animation-effect-light-d"></div>
+                    <div class="e3 animation-effect-rot">X</div>
+                    <div class="e4 color animation-effect-light"></div>
+                    <div class="e5 color animation-effect-light-d"></div>
+                    <div class="e6 animation-effect-scale">*</div>
+                    <div class="e7 color"></div>
+                    <div class="e8 color"></div>
+                </div>
+            </div>
+        </div>
+    `;
+    function loadLoaderImmediately() {
+        let loaderContainer = document.getElementById('loaderContainer');
+        if (!loaderContainer) {
+            loaderContainer = document.createElement('div');
+            loaderContainer.id = 'loaderContainer';
+            document.body.appendChild(loaderContainer);
+        }
+        loaderContainer.innerHTML = loaderDOM;
+    }
+    window.onload = function () {
+        setTimeout(() => {
+            const loader = document.querySelector('.loader-container');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.visibility = 'hidden';
+                    const mainContent = document.querySelector('.main');
+                    if (mainContent) {
+                        mainContent.style.visibility = 'visible';
+                        mainContent.style.opacity = '1';
+                    }
+                }, 800);
+            }
+        }, 3000);
+    };
+    loadLoaderImmediately();
+})();

@@ -1,0 +1,7 @@
+@font-face {
+    font-family: milk;
+    src: url("../../fonts/milk.ttf");
+}
+*{
+    font-family: milk, serif;
+}
