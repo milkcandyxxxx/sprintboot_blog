@@ -1,23 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>主页面</title>
-    <link rel="stylesheet" href="./node/node_modules/nes.css/css/nes.css">
-    <link rel="stylesheet" href="css/font.css">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>奶糖</title>
+
+    <!-- NES.css -->
+    <link rel="stylesheet" href="css/node/node_modules/nes.css/css/nes.css"/>
+    <link rel="stylesheet" href="css/font.css"/>
+    <link rel="stylesheet" href="css/index.css">
+
+
+    <!-- Vue & Axios -->
+    <script src="js/axios.min.js"></script>
+    <script src="js/vue.global.js"></script>
+
+
 </head>
+
 <body>
-<div class="main">
-    <h1>你好</h1>
-    <div class="lists">
-        <ul class="nes-list is-disc">
-            <li>Good morning.</li>
-            <li>Thou hast had a good night's sleep, I hope.你好</li>
-        </ul>
-    </div>
+<div class="page-wrapper">
+    <header class="nes-container is-centered">
+        <h1>最是人间留不住，朱颜辞镜花辞树</h1>
+    </header>
+
+    <main>
+        <aside class="sidebar nes-container with-title">
+            <p class="title">📂 分类</p>
+            <div class="category-list">
+                <button class="nes-btn category-btn" onclick="filterArticles(event, 'frontend')">前端开发</button>
+                <button class="nes-btn category-btn" onclick="filterArticles(event, 'backend')">后端架构</button>
+                <button class="nes-btn category-btn active" onclick="filterArticles(event, 'tech')">技术随笔</button>
+                <button class="nes-btn category-btn" onclick="filterArticles(event, 'life')">生活记录</button>
+            </div>
+        </aside>
+
+        <section class="content" id="app">
+            <div
+                    class="article-card"
+                    v-for="article in articles"
+                    :key="article.id"
+                    :data-category="article.category || 'tech'"
+            >
+                <h3 class="article-title">{{ article.title }}</h3>
+                <div class="article-meta">
+                    发表于 {{ article.createTime?.replace('T', ' ') }} |
+                    分类：{{ article.categoryText || '技术随笔' }}
+                </div>
+                <p class="article-summary">
+                    {{ article.content?.length > 100 ? article.content.slice(0, 100) + '...' : article.content }}
+                </p>
+                <button class="nes-btn is-success">查看全文</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>奶糖の糖袋子</footer>
 </div>
-<div id="loaderContainer"></div>
+<script src="js/index.js">  </script>
+
 <script src="js/loader.js"></script>
 </body>
 </html>
