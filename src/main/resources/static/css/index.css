@@ -1,0 +1,179 @@
+body {
+    background: linear-gradient(180deg, #e4f1ff 0%, #f5faff 100%);
+    background-attachment: fixed;
+    font-family: 'Press Start 2P', 'pixel', sans-serif;
+    color: #212529;
+    margin: 0;
+    padding: 0;
+}
+
+/* 禁用整体滚动 + 占满屏幕 */
+body, html {
+    overflow: hidden;
+    height: 100vh;
+}
+
+.page-wrapper {
+    padding-bottom: 0.1rem;
+    border: 3px solid #212529;
+    border-radius: 8px;
+    background-color: #fff;
+    /* 核心放大样式 - 1.5倍放大 */
+    transform: scale(1.5);
+    transform-origin: top center;
+    width: calc(100% / 1.5);
+    margin: 0 auto;
+    height: calc(100vh / 1.5);
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    top: 0.5rem; /* 顶部微小间距，避免大空白 */
+}
+
+/* 标题栏 */
+header.nes-container {
+    background: #fff;
+    box-shadow: 0 4px 0 #212529;
+    border-radius: 8px;
+    padding: 0.5rem 0;
+}
+
+header h1 {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+
+/* 主内容区域（保留优化后样式，删除重复定义） */
+main {
+    display: flex;
+    max-width: 100%;
+    margin: 0.8rem auto;
+    padding: 0.5rem 1rem;
+    gap: 1.5rem;
+    height: calc((100vh / 1.5) - 120px);
+}
+
+/* 左侧分类栏 */
+.sidebar {
+    flex: 0 0 230px;
+    padding-right: 1rem;
+    background: #fff;
+    border-right: 4px solid #212529;
+    border-radius: 8px;
+    box-shadow: 3px 3px 0 #212529;
+    position: sticky;
+    top: 0;
+    align-self: stretch;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.category-btn {
+    text-align: center;
+    font-size: 0.6rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.category-btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.category-btn.active {
+    background-color: #209cee;
+    color: #fff;
+    border-color: #209cee;
+}
+
+/* 右侧文章内容 */
+.content {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: #209cee #f5faff;
+}
+
+/* 滚动条美化（兼容Chrome） */
+.content::-webkit-scrollbar {
+    width: 8px;
+}
+.content::-webkit-scrollbar-track {
+    background: #f5faff;
+    border-radius: 4px;
+}
+.content::-webkit-scrollbar-thumb {
+    background: #209cee;
+    border-radius: 4px;
+    border: 2px solid #f5faff;
+}
+
+.article-card {
+    background: #fff;
+    border: 4px solid #212529;
+    box-shadow: 3px 3px 0 #212529;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.25s ease;
+}
+
+.article-card:hover {
+    transform: translateY(-3px);
+    background: #f9f9f9;
+}
+
+.article-title {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+}
+
+.article-meta {
+    font-size: 0.6rem;
+    color: #666;
+    margin-bottom: 0.6rem;
+}
+
+.article-summary {
+    font-size: 0.7rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+footer {
+    text-align: center;
+    padding: 0.5rem 0;
+    border-top: 4px solid #212529;
+    background: #fff;
+    box-shadow: 0 -4px 0 #212529;
+    font-size: 0.6rem;
+    color: #666;
+}
+
+/* 响应式：移动端适配 */
+@media (max-width: 800px) {
+    .page-wrapper {
+        transform: none;
+        width: 100%;
+        height: 100vh;
+        top: 0;
+    }
+    main {
+        flex-direction: column;
+        height: calc(100vh - 140px);
+    }
+    .sidebar {
+        border-right: none;
+        border-bottom: 4px solid #212529;
+        margin-bottom: 1rem;
+        max-height: 150px;
+    }
+}
