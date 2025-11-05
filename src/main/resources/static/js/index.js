@@ -19,7 +19,7 @@ const app = Vue.createApp({
         const getArticles = async () => {
             try {
                 // 实际环境使用API获取数据
-                const res = await axios.get('http://127.0.0.1:8080/article/all');
+                const res = await axios.get('/article/all');
                 articles.value = res.data;
 
                 // 数据加载完 + DOM渲染完后，主动触发默认按钮的点击
