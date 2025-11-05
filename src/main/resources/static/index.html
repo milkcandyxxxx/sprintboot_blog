@@ -6,7 +6,7 @@
     <title>奶糖</title>
 
     <!-- NES.css -->
-    <link rel="stylesheet" href="node/node_modules/nes.css/css/nes.css"/>
+    <link rel="stylesheet" href="css/nes.css"/>
     <link rel="stylesheet" href="css/font.css"/>
     <link rel="stylesheet" href="css/index.css">
 
@@ -34,7 +34,6 @@
                 <button class="nes-btn category-btn" onclick="filterArticles(event, 'life')">生活记录</button>
             </div>
         </aside>
-
         <section class="content" id="app">
             <div
                     class="article-card"
@@ -50,7 +49,7 @@
                 <p class="article-summary">
                     {{ article.content?.length > 100 ? article.content.slice(0, 100) + '...' : article.content }}
                 </p>
-                <button class="nes-btn is-success">查看全文</button>
+                <button class="nes-btn is-success" @click="goarticle(article.id)">查看全文</button>
             </div>
         </section>
     </main>

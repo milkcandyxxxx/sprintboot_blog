@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文章详情 - 奶糖</title>
+
+    <!-- NES.css & 字体 -->
+    <link rel="stylesheet" href="css/nes.css" />
+    <link rel="stylesheet" href="css/font.css" />
+
+    <!-- Vue & Axios -->
+    <script src="js/vue.global.js"></script>
+    <script src="js/axios.min.js"></script>
+
+    <!-- markdown & highlight -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.js"></script>
+
+    <style>
+        /* === 背景与字体 === */
+        body {
+            background: linear-gradient(180deg, #e4f1ff 0%, #f5faff 100%);
+            background-attachment: fixed;
+            font-family: 'Press Start 2P', 'pixel', sans-serif;
+            color: #212529;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            min-height: 100%;
+            overflow-x: hidden;  /* ✅ 只隐藏横向滚动条 */
+            overflow-y: auto;    /* ✅ 允许纵向滚动，让 margin 有空间 */
+            padding: 1.5rem 0;   /* ✅ 上下再加点空间更稳妥 */
+            box-sizing: border-box;
+        }
+
+
+        .page-wrapper {
+            transform: scale(1.5);
+            transform-origin: top center;
+            width: calc(100% / 1.5);
+            height: calc(100vh / 1.5);
+            margin: 1.5rem auto; /* ✅ 增加上下左右留白 */
+            overflow: hidden;
+            background: #fff;
+            border: 3px solid #212529;
+            border-radius: 12px;
+            box-shadow: 6px 6px 0 #212529; /* ✅ 可选，让边框更立体 */
+        }
+
+
+        /* 内层：实际滚动区域 */
+        .content-wrapper {
+            overflow-y: auto;
+            height: 100%;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+
+        /* === 标题栏 === */
+        header {
+            text-align: center;
+            background: #fff;
+            border: 4px solid #212529;
+            box-shadow: 4px 4px 0 #212529;
+            border-radius: 8px;
+            padding: 0.8rem 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        header h1 {
+            font-size: 0.9rem;
+            margin: 0.3rem 0;
+        }
+
+        /* === 文章主体 === */
+        .article-container {
+            background: #fff;
+            border: 4px solid #212529;
+            box-shadow: 4px 4px 0 #212529;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-title {
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 0.6rem;
+        }
+
+        .article-meta {
+            font-size: 0.6rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        /* === Markdown 内容 === */
+        .article-content {
+            font-size: 0.7rem;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .article-content h2,
+        .article-content h3 {
+            border-left: 4px solid #209cee;
+            padding-left: 8px;
+            margin-top: 1.2rem;
+            font-size: 0.8rem;
+        }
+
+        .article-content pre {
+            background: #282c34;
+            color: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.65rem;
+            box-shadow: 3px 3px 0 #212529;
+        }
+
+        .article-content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .article-content th,
+        .article-content td {
+            border: 1px solid #999;
+            padding: 6px;
+            text-align: left;
+        }
+
+        /* === 返回按钮 === */
+        .back-btn {
+            display: block;
+            margin: 2rem auto 0;
+            padding: 0.5rem 1rem;
+        }
+
+        /* === 页脚 === */
+        footer {
+            text-align: center;
+            padding: 0.5rem 0;
+            border-top: 4px solid #212529;
+            background: #fff;
+            box-shadow: 0 -4px 0 #212529;
+            font-size: 0.6rem;
+            color: #666;
+        }
+
+        /* === 响应式（手机时关闭缩放）=== */
+        @media (max-width: 800px) {
+            .page-wrapper {
+                transform: none;
+                width: 100%;
+                min-height: 100vh;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+<div id="app" class="content-wrapper">
+    <header class="nes-container is-centered">
+        <h1>📖 奶糖の文章详情</h1>
+    </header>
+
+    <div class="article-container nes-container with-title">
+        <p class="title">📝 正文</p>
+        <h2 class="article-title">{{ article.title }}</h2>
+        <div class="article-meta">
+            发表于 {{ article.createTime?.replace('T', ' ') }} |
+            分类：{{ article.categoryText || '未分类' }}
+        </div>
+
+        <div class="article-content" v-html="renderedContent"></div>
+
+        <button
+                class="nes-btn is-primary back-btn"
+                onclick="window.location.href='index.html'"
+        >
+            ⬅ 返回首页
+        </button>
+    </div>
+
+    <footer>奶糖の糖袋子</footer>
+</div>
+</div>
+
+<script>
+    const { ref, computed, onMounted, nextTick } = Vue;
+    const app = Vue.createApp({
+        setup() {
+            const article = ref({ content: '' });
+
+            const renderedContent = computed(() => {
+                if (!article.value.content) return '';
+                return marked.parse(article.value.content, {
+                    breaks: true,
+                    gfm: true,
+                    highlight: function (code, lang) {
+                        return hljs.highlightAuto(code, [lang]).value;
+                    },
+                });
+            });
+
+            const getArticle = async (id) => {
+                try {
+                    const res = await axios.get(`/article/${id}`);
+                    article.value = res.data;
+                    await nextTick();
+                    document.querySelectorAll('pre code').forEach((block) => {
+                        hljs.highlightElement(block);
+                    });
+                } catch (e) {
+                    console.error('获取文章失败：', e);
+                }
+            };
+
+            onMounted(() => {
+                const id = new URLSearchParams(window.location.search).get('id');
+                getArticle(id);
+            });
+
+            return { article, renderedContent };
+        },
+    });
+    app.mount('#app');
+</script>
+</body>
+</html>

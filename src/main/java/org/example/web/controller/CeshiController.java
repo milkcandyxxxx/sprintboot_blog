@@ -4,6 +4,7 @@ import org.example.web.entity.BlogArticle;
 import org.example.web.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,5 +21,9 @@ public class CeshiController { // 类名首字母大写，符合 Java 规范
     @GetMapping("/article/all")
     public List<BlogArticle> getAllUsers() {
         return userRepository.findAll(); // JPA 内置方法，查询所有记录
+    }
+    @GetMapping("/article/{id}")
+    public Optional<BlogArticle> getaeeticle(@PathVariable Long id) {
+        return userRepository.findById(id); // JPA 内置方法，查询所有记录
     }
 }

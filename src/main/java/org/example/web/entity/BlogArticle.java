@@ -2,6 +2,7 @@ package org.example.web.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -39,13 +40,13 @@ public class BlogArticle { // 类名与表名对应，更符合语义
 
     @Column(name = "create_time", nullable = false, updatable = false)
     private LocalDateTime createTime; // 创建时间（不允许更新）
-//
+    //
 //    @Column(name = "update_time", nullable = false)
 //    private LocalDateTime updateTime; // 更新时间（自动更新）
-    @Column(name = "category",nullable = false)
-    private  String category;
+    @Column(name = "category", nullable = false)
+    private String category;
 
-    @Column(name = "categoryText",nullable = false)
+    @Column(name = "categoryText", nullable = false)
     private String categoryText;
 
     // Lombok 的 @Data 已生成 getter/setter/toString 等，无需手动编写
