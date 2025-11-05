@@ -33,25 +33,21 @@
         }
 
         html, body {
-            min-height: 100%;
-            overflow-x: hidden;  /* ✅ 只隐藏横向滚动条 */
-            overflow-y: auto;    /* ✅ 允许纵向滚动，让 margin 有空间 */
-            padding: 1.5rem 0;   /* ✅ 上下再加点空间更稳妥 */
-            box-sizing: border-box;
+            height: 100%;
+            overflow: hidden; /* ✅ 禁止外层滚动 */
         }
 
-
+        /* 外层：负责缩放视觉 */
         .page-wrapper {
-            transform: scale(1.5);
+            transform: scale(2);
             transform-origin: top center;
-            width: calc(100% / 1.5);
-            height: calc(100vh / 1.5);
-            margin: 1.5rem auto; /* ✅ 增加上下左右留白 */
+            width: calc(100% / 2);
+            height: calc(100vh / 2);
+            margin: 0 auto;
             overflow: hidden;
             background: #fff;
             border: 3px solid #212529;
-            border-radius: 12px;
-            box-shadow: 6px 6px 0 #212529; /* ✅ 可选，让边框更立体 */
+            border-radius: 8px;
         }
 
 
@@ -152,9 +148,9 @@
         footer {
             text-align: center;
             padding: 0.5rem 0;
-            border-top: 4px solid #212529;
+            /*border-top: 4px solid #212529;*/
             background: #fff;
-            box-shadow: 0 -4px 0 #212529;
+            /*box-shadow: 0 -4px 0 #212529;*/
             font-size: 0.6rem;
             color: #666;
         }
@@ -239,5 +235,6 @@
     });
     app.mount('#app');
 </script>
+<script src="js/loader.js"></script>
 </body>
 </html>
