@@ -1,32 +1,49 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>文章详情 - 奶糖</title>
 
-    <!-- NES.css & 字体 -->
-    <link rel="stylesheet" href="css/nes.css" />
-    <link rel="stylesheet" href="css/font.css" />
+    <link rel="stylesheet" href="css/nes.css"/>
 
-    <!-- Vue & Axios -->
+    <link rel="stylesheet" href="css/github.min.css" />
+
+
+<!--    <script src="js/1.js">    </script>-->
+<!--    <script src="js/1.js"></script>-->
+    <script src="js/highlight.min.js"></script>
+
+    <script src="js/markdown-it.min.js"></script>
+
     <script src="js/vue.global.js"></script>
     <script src="js/axios.min.js"></script>
 
-    <!-- markdown & highlight -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.js"></script>
-
     <style>
-        /* === 背景与字体 === */
+        @font-face {
+            font-family: milk;
+            src: url("fonts/milk.ttf");
+        }
+        #hitokoto_text,#hitokoto_author{
+            font-family: milk;
+        }
+        @font-face {
+            font-family: SimSun;
+            src: url("fonts/SimHei.ttf");
+        }
+        @font-face {
+            font-family: JetBrains Mono;
+            src: url("fonts/JetBrainsMono-Regular.ttf");
+        }
+        *{
+            font-family: JetBrains Mono , SimSun;
+        }
+
+
         body {
             background: linear-gradient(180deg, #e4f1ff 0%, #f5faff 100%);
             background-attachment: fixed;
-            font-family: 'Press Start 2P', 'pixel', sans-serif;
+            font-family: 'Press Start 2P', cursive, sans-serif;
             color: #212529;
             margin: 0;
             padding: 0;
@@ -34,15 +51,15 @@
 
         html, body {
             height: 100%;
-            overflow: hidden; /* ✅ 禁止外层滚动 */
+            overflow: hidden;
         }
 
-        /* 外层：负责缩放视觉 */
+
         .page-wrapper {
-            transform: scale(2);
+            transform: scale(1.5);
             transform-origin: top center;
-            width: calc(100% / 2);
-            height: calc(100vh / 2);
+            width: calc(100% / 1.5);
+            height: calc(100vh / 1.5);
             margin: 0 auto;
             overflow: hidden;
             background: #fff;
@@ -51,7 +68,6 @@
         }
 
 
-        /* 内层：实际滚动区域 */
         .content-wrapper {
             overflow-y: auto;
             height: 100%;
@@ -60,23 +76,27 @@
         }
 
 
-        /* === 标题栏 === */
-        header {
+        header.nes-container {
             text-align: center;
             background: #fff;
             border: 4px solid #212529;
             box-shadow: 4px 4px 0 #212529;
             border-radius: 8px;
-            padding: 0.8rem 0.5rem;
-            margin-bottom: 1rem;
+            padding: 1rem 0.5rem !important;
+            margin-bottom: 0.5rem !important;
         }
 
-        header h1 {
+        header.nes-container h1{
             font-size: 0.9rem;
-            margin: 0.3rem 0;
+            margin: 0.1rem 0 !important;
+            line-height: 1.2;
         }
 
-        /* === 文章主体 === */
+        header.nes-container p {
+            margin: 0.1rem 0 !important;
+            font-size: 0.8rem;
+        }
+
         .article-container {
             background: #fff;
             border: 4px solid #212529;
@@ -99,11 +119,17 @@
             margin-bottom: 1rem;
         }
 
-        /* === Markdown 内容 === */
+
         .article-content {
             font-size: 0.7rem;
             line-height: 1.8;
             color: #333;
+        }
+
+        .article-content h1 {
+            font-size: 1rem;
+            border-bottom: 3px solid #212529;
+            padding-bottom: 0.5rem;
         }
 
         .article-content h2,
@@ -114,14 +140,50 @@
             font-size: 0.8rem;
         }
 
+
         .article-content pre {
-            background: #282c34;
-            color: #fff;
+            background: #ffffff;
+            color: #333;
             padding: 1rem;
             border-radius: 8px;
             overflow-x: auto;
             font-size: 0.65rem;
             box-shadow: 3px 3px 0 #212529;
+            border: 2px solid #e1e1e1;
+        }
+
+        .article-content code {
+            background: #f8f8f8;
+            padding: 2px 4px;
+            border-radius: 4px;
+            color: #d14;
+        }
+
+        .article-content pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid #209cee;
+            padding-left: 1rem;
+            margin-left: 0;
+            color: #666;
+            background: #f9f9f9;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .article-content img {
+            max-width: 100%;
+            border: 2px solid #212529;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .article-content ul, .article-content ol {
+            padding-left: 1.5rem;
         }
 
         .article-content table {
@@ -137,25 +199,23 @@
             text-align: left;
         }
 
-        /* === 返回按钮 === */
+
         .back-btn {
             display: block;
             margin: 2rem auto 0;
             padding: 0.5rem 1rem;
         }
 
-        /* === 页脚 === */
+
         footer {
             text-align: center;
             padding: 0.5rem 0;
-            /*border-top: 4px solid #212529;*/
             background: #fff;
-            /*box-shadow: 0 -4px 0 #212529;*/
             font-size: 0.6rem;
             color: #666;
         }
 
-        /* === 响应式（手机时关闭缩放）=== */
+
         @media (max-width: 800px) {
             .page-wrapper {
                 transform: none;
@@ -164,77 +224,173 @@
                 top: 0;
             }
         }
+
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: #d9534f;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
 <div class="page-wrapper">
-<div id="app" class="content-wrapper">
-    <header class="nes-container is-centered">
-        <h1>📖 奶糖の文章详情</h1>
-    </header>
+    <div id="app" class="content-wrapper">
+        <header class="nes-container is-centered">
+            <h1 id='hitokoto_text' >加载中...</h1>
+            <p id="hitokoto_author"></p>
+        </header>
 
-    <div class="article-container nes-container with-title">
-        <p class="title">📝 正文</p>
-        <h2 class="article-title">{{ article.title }}</h2>
-        <div class="article-meta">
-            发表于 {{ article.createTime?.replace('T', ' ') }} |
-            分类：{{ article.categoryText || '未分类' }}
+        <div class="article-container nes-container with-title">
+            <p class="title">📝 正文</p>
+            <h2 class="article-title">{{ article.title || '加载中...' }}</h2>
+            <div class="article-meta" v-if="article.createTime">
+                发表于 {{ formatTime(article.createTime) }} |
+                分类：{{ article.categoryText || '未分类' }}
+            </div>
+
+            <div v-if="loading" class="loading">
+                <div class="nes-balloon from-left">
+                    <p>加载中...</p>
+                </div>
+            </div>
+
+            <div v-else-if="error" class="error">
+                <div class="nes-balloon from-left">
+                    <p>{{ error }}</p>
+                </div>
+                <button class="nes-btn is-error" @click="retry">重试</button>
+            </div>
+
+            <div v-else class="article-content" v-html="renderedContent"></div>
+
+            <button
+                    class="nes-btn is-primary back-btn"
+                    onclick="window.location.href='index.html'"
+            >
+                ⬅ 返回首页
+            </button>
         </div>
 
-        <div class="article-content" v-html="renderedContent"></div>
-
-        <button
-                class="nes-btn is-primary back-btn"
-                onclick="window.location.href='index.html'"
-        >
-            ⬅ 返回首页
-        </button>
+        <footer>奶糖の糖袋子</footer>
     </div>
-
-    <footer>奶糖の糖袋子</footer>
-</div>
 </div>
 
 <script>
-    const { ref, computed, onMounted, nextTick } = Vue;
-    const app = Vue.createApp({
+    const { createApp, ref, computed, onMounted, nextTick } = Vue;
+
+    const app = createApp({
         setup() {
-            const article = ref({ content: '' });
+            const article = ref({});
+            const loading = ref(true);
+            const error = ref(null);
+
+
+            const md = window.markdownit({
+                html: true,
+                breaks: true,
+                linkify: true,
+                typographer: true,
+                highlight: function (code, lang) {
+                    if (lang && hljs.getLanguage(lang)) {
+                        try {
+                            return hljs.highlight(code, { language: lang }).value;
+                        } catch (__) {}
+                    }
+                    return hljs.highlightAuto(code).value;
+                }
+            });
+
 
             const renderedContent = computed(() => {
-                if (!article.value.content) return '';
-                return marked.parse(article.value.content, {
-                    breaks: true,
-                    gfm: true,
-                    highlight: function (code, lang) {
-                        return hljs.highlightAuto(code, [lang]).value;
-                    },
-                });
+                if (!article.value.content) return '<p>暂无内容</p>';
+                return md.render(article.value.content);
             });
+
+
+            const formatTime = (timeStr) => {
+                if (!timeStr) return '';
+                return timeStr.replace('T', ' ');
+            };
+
 
             const getArticle = async (id) => {
                 try {
-                    const res = await axios.get(`/article/${id}`);
-                    article.value = res.data;
-                    await nextTick();
-                    document.querySelectorAll('pre code').forEach((block) => {
-                        hljs.highlightElement(block);
+                    loading.value = true;
+                    error.value = null;
+
+
+                    const response = await axios.get(`/article/${id}`);
+
+                    if (response.data) {
+                        article.value = response.data;
+                    } else {
+                        throw new Error('文章数据为空');
+                    }
+
+                    loading.value = false;
+
+
+                    nextTick(() => {
+                        document.querySelectorAll("pre code").forEach((block) => {
+                            hljs.highlightElement(block);
+                        });
                     });
-                } catch (e) {
-                    console.error('获取文章失败：', e);
+
+                } catch (err) {
+                    console.error("获取文章失败：", err);
+                    loading.value = false;
+                    error.value = `获取文章失败: ${err.message || '未知错误'}`;
                 }
             };
 
+            const retry = () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get("id") || 1;
+                getArticle(id);
+            };
+
             onMounted(() => {
-                const id = new URLSearchParams(window.location.search).get('id');
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get("id") || 1;
                 getArticle(id);
             });
 
-            return { article, renderedContent };
+            return {
+                article,
+                renderedContent,
+                loading,
+                error,
+                formatTime,
+                retry
+            };
         },
     });
-    app.mount('#app');
+
+    app.mount("#app");
 </script>
-<script src="js/loader.js"></script>
+
+<script>
+    const hitokoto = document.querySelector('#hitokoto_text');
+    const hitokoto_author = document.querySelector("#hitokoto_author")
+
+    axios.get('https://hi.logacg.com')
+        .then(({ data }) => {
+            hitokoto.innerText = data.hitokoto
+            hitokoto_author.innerText =
+                data.from && data.from_who ? `${data.from} - ${data.from_who}` :
+                    data.from_who ? data.from_who :
+                        data.from ? data.from : '';
+
+        })
+        .catch(console.error)
+</script>
 </body>
 </html>

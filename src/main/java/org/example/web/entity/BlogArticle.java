@@ -1,5 +1,6 @@
 package org.example.web.entity;
 
+import com.fasterxml.jackson.annotation.JsonRawValue;
 import jakarta.persistence.*;
 import lombok.Data;
 

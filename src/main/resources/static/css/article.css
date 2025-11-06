@@ -1,7 +1,6 @@
-/* 🌈 基础样式：确保浏览器滚动核心控制 */
 html {
-    overflow-y: auto; /* 仅浏览器（html）显示滚动条 */
-    height: auto;     /* 高度随内容自适应，支撑滚动 */
+    overflow-y: auto;
+    height: auto;
 }
 
 body {
@@ -11,11 +10,10 @@ body {
     color: #212529;
     margin: 0;
     padding: 0;
-    overflow: visible !important; /* 取消 body 滚动限制 */
-    height: auto !important;      /* 取消 body 固定高度 */
+    overflow: visible !important;
+    height: auto !important;
 }
 
-/* ✅ 页面容器：无滚动，仅做布局 */
 .page-wrapper {
     padding-bottom: 0.1rem;
     border: 3px solid #212529;
@@ -23,29 +21,27 @@ body {
     background-color: #fff;
     transform: scale(1.5);
     transform-origin: top center;
-    width: calc(100vw / 1.5); /* 基于视口宽度计算，避免误差 */
+    width: calc(100vw / 1.5);
     margin: 0 auto;
     box-sizing: border-box;
     position: relative;
     top: 0.5rem;
-    overflow: visible !important; /* 禁止容器自身滚动 */
-    height: auto !important;      /* 高度随内容自适应 */
-    max-height: none !important;  /* 取消最大高度限制 */
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
 }
 
-/* ✅ 主内容区：无滚动，仅做布局 */
 main {
     display: flex;
     max-width: 100%;
     margin: 0.8rem auto;
     padding: 0.5rem 1rem;
     gap: 1.5rem;
-    overflow: visible !important; /* 禁止自身滚动 */
-    height: auto !important;      /* 高度自适应 */
-    max-height: none !important;  /* 取消最大高度限制 */
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
 }
 
-/* 标题栏样式 */
 header.nes-container {
     background: #fff;
     box-shadow: 0 4px 0 #212529;
@@ -58,7 +54,6 @@ header h1 {
     margin: 0.5rem 0;
 }
 
-/* ✅ 左侧分类栏：无滚动，仅做布局 */
 .sidebar {
     flex: 0 0 230px;
     padding-right: 1rem;
@@ -69,21 +64,19 @@ header h1 {
     position: sticky;
     top: 0;
     align-self: flex-start;
-    overflow: visible !important; /* 禁止自身滚动 */
-    height: auto !important;      /* 高度自适应 */
-    max-height: none !important;  /* 取消最大高度限制 */
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
 }
 
-/* ✅ 右侧内容区：无滚动，仅做布局 */
 .content {
     flex: 1;
     padding-right: 0.5rem;
-    overflow: visible !important; /* 禁止自身滚动 */
-    height: auto !important;      /* 高度自适应 */
-    max-height: none !important;  /* 取消最大高度限制 */
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
 }
 
-/* 文章卡片样式 */
 .article-card {
     background: #fff;
     border: 4px solid #212529;
@@ -99,18 +92,16 @@ header h1 {
     background: #f9f9f9;
 }
 
-/* 文章详情容器：无滚动，仅做布局 */
 .article-container {
     background: white;
     padding: 2rem;
     border-radius: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: visible !important; /* 禁止自身滚动 */
-    height: auto !important;      /* 高度自适应 */
-    max-height: none !important;  /* 取消最大高度限制 */
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
 }
 
-/* 文章详情内容样式 */
 .article-title {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
@@ -128,13 +119,12 @@ header h1 {
     line-height: 1.8;
 }
 
-/* 代码块：保留横向滚动（避免代码换行混乱），不影响浏览器整体滚动 */
 .article-content pre {
     background: #282c34;
     color: #fff;
     padding: 1rem;
     border-radius: 8px;
-    overflow-x: auto; /* 仅代码块横向滚动，属于功能性滚动，不影响整体 */
+    overflow-x: auto;
 }
 
 .article-content table {
@@ -161,7 +151,6 @@ header h1 {
     margin: 2rem auto 0;
 }
 
-/* 底部样式 */
 footer {
     text-align: center;
     padding: 0.5rem 0;
@@ -172,7 +161,6 @@ footer {
     color: #666;
 }
 
-/* 响应式适配：小屏幕下正常显示，无滚动冲突 */
 @media (max-width: 800px) {
     .page-wrapper {
         transform: none;

@@ -7,7 +7,6 @@ body {
     padding: 0;
 }
 
-/* 禁用整体滚动 + 占满屏幕 */
 body, html {
     overflow: hidden;
     height: 100vh;
@@ -18,7 +17,6 @@ body, html {
     border: 3px solid #212529;
     border-radius: 8px;
     background-color: #fff;
-    /* 核心放大样式 - 1.5倍放大 */
     transform: scale(1.5);
     transform-origin: top center;
     width: calc(100% / 1.5);
@@ -27,10 +25,9 @@ body, html {
     box-sizing: border-box;
     overflow: hidden;
     position: relative;
-    top: 0.5rem; /* 顶部微小间距，避免大空白 */
+    top: 0.5rem;
 }
 
-/* 标题栏 */
 header.nes-container {
     background: #fff;
     box-shadow: 0 4px 0 #212529;
@@ -43,7 +40,6 @@ header h1 {
     margin: 0.5rem 0;
 }
 
-/* 主内容区域（保留优化后样式，删除重复定义） */
 main {
     display: flex;
     max-width: 100%;
@@ -53,7 +49,6 @@ main {
     height: calc((100vh / 1.5) - 120px);
 }
 
-/* 左侧分类栏 */
 .sidebar {
     flex: 0 0 230px;
     padding-right: 1rem;
@@ -92,7 +87,6 @@ main {
     border-color: #209cee;
 }
 
-/* 右侧文章内容 */
 .content {
     flex: 1;
     overflow-y: auto;
@@ -101,7 +95,6 @@ main {
     scrollbar-color: #209cee #f5faff;
 }
 
-/* 滚动条美化（兼容Chrome） */
 .content::-webkit-scrollbar {
     width: 8px;
 }
@@ -158,7 +151,6 @@ footer {
     color: #666;
 }
 
-/* 响应式：移动端适配 */
 @media (max-width: 800px) {
     .page-wrapper {
         transform: none;
