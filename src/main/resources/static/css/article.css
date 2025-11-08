@@ -4,7 +4,7 @@ html {
 }
 
 body {
-    background: linear-gradient(180deg, #e4f1ff 0%, #f5faff 100%);
+    background: linear-gradient(135deg, #e4f1ff 0%, #f5faff 50%, #e8f4ff 100%);
     background-attachment: fixed;
     font-family: 'Press Start 2P', 'pixel', sans-serif;
     color: #212529;
@@ -12,12 +12,13 @@ body {
     padding: 0;
     overflow: visible !important;
     height: auto !important;
+    transition: background 0.3s ease;
 }
 
 .page-wrapper {
     padding-bottom: 0.1rem;
     border: 3px solid #212529;
-    border-radius: 8px;
+    border-radius: 12px;
     background-color: #fff;
     transform: scale(1.5);
     transform-origin: top center;
@@ -29,6 +30,12 @@ body {
     overflow: visible !important;
     height: auto !important;
     max-height: none !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.page-wrapper:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 main {
@@ -45,13 +52,23 @@ main {
 header.nes-container {
     background: #fff;
     box-shadow: 0 4px 0 #212529;
-    border-radius: 8px;
+    border-radius: 12px 12px 8px 8px;
     padding: 0.5rem 0;
+    transition: all 0.3s ease;
+}
+
+header.nes-container:hover {
+    box-shadow: 0 4px 0 #212529, 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
     font-size: 1rem;
     margin: 0.5rem 0;
+    transition: color 0.3s ease;
+}
+
+header.nes-container:hover h1 {
+    color: #209cee;
 }
 
 .sidebar {
@@ -59,14 +76,19 @@ header h1 {
     padding-right: 1rem;
     background: #fff;
     border-right: 4px solid #212529;
-    border-radius: 8px;
-    box-shadow: 3px 3px 0 #212529;
+    border-radius: 12px;
+    box-shadow: 3px 3px 0 #212529, 0 4px 12px rgba(0, 0, 0, 0.08);
     position: sticky;
     top: 0;
     align-self: flex-start;
     overflow: visible !important;
     height: auto !important;
     max-height: none !important;
+    transition: all 0.3s ease;
+}
+
+.sidebar:hover {
+    box-shadow: 3px 3px 0 #212529, 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
 .content {
@@ -80,16 +102,17 @@ header h1 {
 .article-card {
     background: #fff;
     border: 4px solid #212529;
-    box-shadow: 3px 3px 0 #212529;
-    border-radius: 8px;
+    box-shadow: 3px 3px 0 #212529, 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
     padding: 1rem;
     margin-bottom: 1.5rem;
-    transition: all 0.25s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .article-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px) scale(1.01);
     background: #f9f9f9;
+    box-shadow: 3px 3px 0 #212529, 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .article-container {
@@ -100,12 +123,22 @@ header h1 {
     overflow: visible !important;
     height: auto !important;
     max-height: none !important;
+    transition: all 0.3s ease;
+}
+
+.article-container:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .article-title {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
     text-align: center;
+    transition: color 0.3s ease;
+}
+
+.article-container:hover .article-title {
+    color: #209cee;
 }
 
 .article-meta {
@@ -113,10 +146,20 @@ header h1 {
     color: #666;
     text-align: center;
     margin-bottom: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.article-container:hover .article-meta {
+    color: #555;
 }
 
 .article-content {
     line-height: 1.8;
+    transition: color 0.3s ease;
+}
+
+.article-container:hover .article-content {
+    color: #444;
 }
 
 .article-content pre {
@@ -125,12 +168,22 @@ header h1 {
     padding: 1rem;
     border-radius: 8px;
     overflow-x: auto;
+    transition: all 0.3s ease;
+}
+
+.article-content pre:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .article-content table {
     width: 100%;
     border-collapse: collapse;
     margin: 1rem 0;
+    transition: all 0.3s ease;
+}
+
+.article-content table:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .article-content th,
@@ -138,17 +191,55 @@ header h1 {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
+    transition: all 0.3s ease;
+}
+
+.article-content th {
+    background: #f9f9f9;
+}
+
+.article-content tr:hover td {
+    background: #f5f5f5;
 }
 
 .article-content h3 {
     border-left: 4px solid #4caf50;
     padding-left: 8px;
     margin-top: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.article-content h3:hover {
+    border-left-color: #45a049;
+    color: #4caf50;
 }
 
 .back-btn {
     display: block;
     margin: 2rem auto 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.back-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s;
+}
+
+.back-btn:hover::before {
+    left: 100%;
+}
+
+.back-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 footer {
@@ -159,6 +250,11 @@ footer {
     box-shadow: 0 -4px 0 #212529;
     font-size: 0.6rem;
     color: #666;
+    transition: all 0.3s ease;
+}
+
+footer:hover {
+    color: #209cee;
 }
 
 @media (max-width: 800px) {
@@ -168,6 +264,7 @@ footer {
         top: 0;
         overflow: visible !important;
         height: auto !important;
+        border-radius: 0;
     }
 
     main {
@@ -182,5 +279,35 @@ footer {
         margin-bottom: 1rem;
         overflow: visible !important;
         height: auto !important;
+        border-radius: 12px 12px 8px 8px;
     }
+}
+
+.nes-container {
+    transition: all 0.3s ease;
+}
+
+.nes-container:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.nes-btn {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nes-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nes-btn.is-error:hover {
+    transform: translateY(-1px) scale(1.02);
+}
+
+.nes-balloon {
+    transition: all 0.3s ease;
+}
+
+.nes-balloon:hover {
+    transform: translateY(-2px);
 }
