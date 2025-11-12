@@ -1,0 +1,349 @@
+<style>
+    /* From Uiverse.io by GreyD097 */
+    .button-box {
+        position: relative;
+        width: 12rem;
+        height: 5rem;
+        display: flex;
+    }
+    .button-box .button {
+        width: 3.2rem;
+        height: 3.2rem;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        cursor: pointer;
+        border: 3px solid #311703;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.3s;
+        opacity: 0.85;
+        box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.4);
+    }
+    .button-box .button .icon {
+        width: 24px;
+        height: 24px;
+        opacity: 0.7;
+        transition: 0.25s;
+    }
+    .button-box .button:nth-child(4) {
+        transform: translate(-50%, -50%) rotate(90deg);
+        z-index: 30;
+        background: #ff7f50;
+    }
+    .button-box .button:nth-child(5) {
+        transform: translate(-50%, -50%) rotate(-115deg);
+        z-index: 40;
+        background: #ffd700;
+    }
+    .button-box .button:nth-child(6) {
+        transform: translate(-50%, -50%) rotate(-45deg);
+        z-index: 50;
+        background: #019b98;
+    }
+    .button-box .button:nth-child(6) .icon {
+        animation: active 2.2s linear infinite;
+    }
+    .button-box .touch {
+        position: relative;
+        z-index: 60;
+        height: 100%;
+        flex: 1;
+        cursor: pointer;
+    }
+    .button-box .touch.left:hover ~ .button:nth-child(4) {
+        opacity: 1;
+        transform: translate(-170%, -50%) rotate(-90deg) scale(1.05);
+    }
+    .button-box .touch.left:hover ~ .button:nth-child(4) .icon {
+        width: 25px;
+        opacity: 0.9;
+    }
+    .button-box .touch.left:active ~ .button:nth-child(4) {
+        transform: translate(-170%, -50%) rotate(-90deg) scale(0.9);
+    }
+    .button-box .touch.right:hover ~ .button:nth-child(5) {
+        opacity: 1;
+        transform: translate(70%, -50%) rotate(90deg) scale(1.05);
+    }
+    .button-box .touch.right:hover ~ .button:nth-child(5) .icon {
+        width: 25px;
+        opacity: 0.9;
+    }
+    .button-box .touch.right:active ~ .button:nth-child(5) {
+        transform: translate(70%, -50%) rotate(90deg) scale(0.9);
+    }
+    .button-box .touch.middle:hover ~ .button:nth-child(6) {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(0deg) scale(1.05);
+    }
+    .button-box .touch.middle:hover ~ .button:nth-child(6) .icon {
+        width: 25px;
+        opacity: 0.9;
+    }
+    .button-box .touch.middle:active ~ .button:nth-child(6) {
+        transform: translate(-50%, -50%) rotate(0deg) scale(0.9);
+    }
+    .button-box:hover .button:nth-child(4) {
+        transform: translate(-170%, -50%) rotate(-90deg);
+    }
+    .button-box:hover .button:nth-child(5) {
+        transform: translate(70%, -50%) rotate(90deg);
+    }
+    .button-box:hover .button:nth-child(6) {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    .button-box:hover .button:nth-child(6) .icon {
+        animation: active 4s linear infinite;
+    }
+    @keyframes active {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+</style>
+
+
+<!-- 固定操作按钮组组件 -->
+
+<div class="fixed-button-group">
+    <div class="button-box">
+        <div class="touch left"></div>
+        <div class="touch middle"></div>
+        <div class="touch right"></div>
+
+        <!-- 按钮1：返回/后退 -->
+        <div class="button" id="fab-btn-1" title="返回">
+            <svg
+                    class="icon"
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                        d="M446.208 566.72h369.28c-2.944 103.808-39.36 190.72-109.376 260.736s-156.608 106.432-259.904 109.376c-103.808-2.944-190.72-39.36-260.736-109.376s-106.432-156.928-109.376-260.736c2.944-103.232 39.36-189.888 109.376-259.904S342.4 200.448 446.208 197.504v369.216z m383.296-383.232c70.016 70.016 106.432 156.928 109.376 260.736H568.704V74.112c103.872 2.944 190.784 39.36 260.8 109.376z"
+                        fill="#ffffff"
+                ></path>
+            </svg>
+        </div>
+
+        <!-- 按钮2：编辑/发布 -->
+        <div class="button" id="fab-btn-2" title="编辑">
+            <svg
+                    class="icon"
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                        d="M773.907692 992.768h-590.76923c-48.864492 0-88.615385-39.754831-88.615385-88.615385V120.032492c0-48.852677 39.743015-88.615385 88.599631-88.631138l379.076923-0.169354h0.047261c35.233477 0 78.217846 18.699815 102.230646 44.480985l158.0032 169.621661C845.686154 270.245415 862.523077 313.040738 862.523077 347.096615v300.780308c0 27.1872-22.043569 49.230769-49.230769 49.230769s-49.230769-22.043569-49.23077-49.230769V347.096615c0-9.168738-7.388554-27.951262-13.627076-34.650584l-158.011077-169.6256c-5.490215-5.891938-22.122338-13.126892-30.176493-13.126893h-0.003938L192.984615 129.858954V894.306462h571.076923V805.415385c0-27.1872 22.043569-49.230769 49.23077-49.23077s49.230769 22.043569 49.230769 49.23077v98.73723c0 48.864492-39.754831 88.615385-88.615385 88.615385z"
+                        class="selected"
+                        fill="#ffffff"
+                ></path>
+                <path
+                        d="M414.802708 753.829415a49.092923 49.092923 0 0 1-34.812062-14.418707l-90.289231-90.285293c-19.223631-19.223631-19.227569-50.396554 0-69.624123 19.223631-19.223631 50.396554-19.223631 69.624123 0l55.47717 55.473231 187.7504-187.746461c19.227569-19.223631 50.396554-19.219692 69.624123 0 19.227569 19.227569 19.227569 50.396554 0 69.624123l-222.562462 222.558523a49.073231 49.073231 0 0 1-34.812061 14.418707z"
+                        fill="#ffffff"
+                ></path>
+            </svg>
+        </div>
+
+        <!-- 按钮3：分享/更多 -->
+        <div class="button" id="fab-btn-3" title="分享">
+            <svg
+                    class="icon"
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                        d="M793.6 678.4c29.866667-51.2 81.066667-76.8 132.266667-72.533333 8.533333-29.866667 12.8-64 12.8-98.133334 0-29.866667-4.266667-59.733333-8.533334-85.333333-51.2 8.533333-106.666667-21.333333-136.533333-72.533333-29.866667-51.2-25.6-115.2 8.533333-153.6-46.933333-42.666667-98.133333-72.533333-157.866666-93.866667-17.066667 51.2-68.266667 85.333333-132.266667 85.333333s-110.933333-34.133333-132.266667-85.333333c-59.733333 21.333333-110.933333 55.466667-157.866666 98.133333 34.133333 42.666667 38.4 102.4 8.533333 153.6-29.866667 51.2-85.333333 76.8-136.533333 68.266667-4.266667 29.866667-8.533333 59.733333-8.533334 89.6 0 34.133333 4.266667 64 12.8 93.866667 51.2-4.266667 102.4 21.333333 132.266667 72.533333 25.6 51.2 25.6 106.666667-4.266667 149.333333 46.933333 42.666667 98.133333 72.533333 157.866667 89.6 21.333333-46.933333 68.266667-76.8 128-76.8s106.666667 29.866667 128 76.8c59.733333-17.066667 110.933333-51.2 157.866667-89.6-29.866667-42.666667-34.133333-98.133333-4.266667-149.333333z m-281.6 17.066667c-102.4 0-183.466667-81.066667-183.466667-183.466667S409.6 328.533333 512 328.533333s183.466667 81.066667 183.466667 183.466667-81.066667 183.466667-183.466667 183.466667z"
+                        fill="#ffffff"
+                ></path>
+            </svg>
+        </div>
+    </div>
+</div>
+
+<!-- 组件样式 -->
+<style>
+    /* 固定按钮组容器 */
+    /* 组件内的 .fixed-button-group 样式修改 */
+    .fixed-button-group {
+        display: flex;
+        gap: 15px;
+        box-sizing: border-box;
+        margin: 30px; /* 给按钮加个内边距，避免贴边 */
+    }
+
+    /* 按钮容器 */
+    .button-box {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    /* 单个按钮样式 */
+    .button {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #e74c3c; /* 主色调，可自定义 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+        transition: all 0.3s ease;
+        border: none;
+        padding: 0;
+        outline: none;
+        user-select: none;
+    }
+
+    /* 按钮hover效果 */
+    .button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(231, 76, 60, 0.6);
+        background: #c0392b; /* 加深色 */
+    }
+
+    /* 按钮点击效果 */
+    .button:active {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(231, 76, 60, 0.5);
+    }
+
+    /* 图标样式 */
+    .button .icon {
+        width: 28px;
+        height: 28px;
+        transition: transform 0.2s ease;
+    }
+
+    .button:hover .icon {
+        transform: scale(1.1);
+    }
+
+    /* 隐藏触摸反馈元素（无需可删除） */
+    .touch {
+        display: none;
+    }
+
+    /* 响应式适配 - 移动端 */
+    @media (max-width: 768px) {
+        .fixed-button-group {
+            bottom: 20px;
+            right: 20px;
+            gap: 10px;
+        }
+
+        .button-box {
+            gap: 8px;
+        }
+
+        .button {
+            width: 48px;
+            height: 48px;
+        }
+
+        .button .icon {
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    /* 响应式适配 - 小屏手机 */
+    @media (max-width: 375px) {
+        .button {
+            width: 42px;
+            height: 42px;
+        }
+
+        .button .icon {
+            width: 20px;
+            height: 20px;
+        }
+    }
+</style>
+
+<!-- 组件脚本（可选，用于添加交互逻辑） -->
+<script>
+    // 暴露给外部的API，方便父页面调用
+    window.FixedActionButtons = {
+        // 初始化按钮事件
+        init: function(options = {}) {
+            // 默认配置
+            const config = {
+                btn1Click: null, // 第一个按钮点击事件
+                btn2Click: null, // 第二个按钮点击事件
+                btn3Click: null, // 第三个按钮点击事件
+                buttonColor: '#e74c3c', // 按钮颜色
+                buttonHoverColor: '#c0392b' //  hover颜色
+            };
+
+            // 合并用户配置
+            Object.assign(config, options);
+
+            // 设置按钮颜色
+            this.setButtonColor(config.buttonColor, config.buttonHoverColor);
+
+            // 绑定点击事件
+            const btn1 = document.getElementById('fab-btn-1');
+            const btn2 = document.getElementById('fab-btn-2');
+            const btn3 = document.getElementById('fab-btn-3');
+
+            if (btn1 && config.btn1Click) {
+                btn1.addEventListener('click', config.btn1Click);
+            }
+
+            if (btn2 && config.btn2Click) {
+                btn2.addEventListener('click', config.btn2Click);
+            }
+
+            if (btn3 && config.btn3Click) {
+                btn3.addEventListener('click', config.btn3Click);
+            }
+        },
+
+        // 设置按钮颜色
+        setButtonColor: function(mainColor, hoverColor) {
+            const style = document.createElement('style');
+            style.textContent = `
+                .button { background: ${mainColor} !important; }
+                .button:hover { background: ${hoverColor} !important; }
+                .button { box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important; }
+                .button:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.3) !important; }
+            `;
+            document.head.appendChild(style);
+        },
+
+        // 显示按钮组
+        show: function() {
+            const container = document.querySelector('.fixed-button-group');
+            if (container) container.style.display = 'flex';
+        },
+
+        // 隐藏按钮组
+        hide: function() {
+            const container = document.querySelector('.fixed-button-group');
+            if (container) container.style.display = 'none';
+        },
+
+        // 更新按钮标题
+        setButtonTitles: function(titles = []) {
+            const buttons = document.querySelectorAll('.button');
+            titles.forEach((title, index) => {
+                if (buttons[index]) buttons[index].setAttribute('title', title);
+            });
+        }
+    };
+
+    // 自动初始化（如果需要自动绑定默认事件）
+    document.addEventListener('DOMContentLoaded', function() {
+        // 默认不绑定事件，如需默认行为可在此添加
+        // window.FixedActionButtons.init();
+    });
+</script>
