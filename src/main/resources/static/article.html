@@ -5,26 +5,257 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>文章详情 - 奶糖</title>
 
-    <!-- 保留 nes.css 核心样式（非Markdown相关） -->
     <link rel="stylesheet" href="css/nes.css"/>
-    
-    <!-- 添加article.css外部样式文件 -->
-    <link rel="stylesheet" href="css/article.css"/>
-
-    <!-- 1. 导入 GitHub Markdown CSS（CDN，替代自定义Markdown样式） -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.5.1/github-markdown.min.css">
-
-    <!-- 2. 导入 highlight.js（CDN，代码高亮，替代本地版本） -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css">
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
-
-    <!-- 保留必要依赖：Vue 和 Axios -->
     <script src="js/vue.global.js"></script>
     <script src="js/axios.min.js"></script>
 
-    <!-- 添加article.js外部脚本文件 -->
-    <script src="js/article.js"></script>
+    <style>
+        @font-face {
+            font-family: milk;
+            src: url("fonts/milk.ttf");
+        }
+        #hitokoto_text, #hitokoto_author {
+            font-family: milk;
+        }
+        @font-face {
+            font-family: SimSun;
+            src: url("fonts/SimHei.ttf");
+        }
+        @font-face {
+            font-family: JetBrains Mono;
+            src: url("fonts/JetBrainsMono-Regular.ttf");
+        }
+        * {
+            font-family: JetBrains Mono, SimSun;
+        }
 
+        body {
+            background: linear-gradient(135deg, #e4f1ff 0%, #f5faff 50%, #e8f4ff 100%);
+            background-attachment: fixed;
+            color: #212529;
+            margin: 0;
+            padding: 0;
+            transition: background 0.3s ease;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .page-wrapper {
+            transform: scale(1.5);
+            transform-origin: top center;
+            width: calc(100% / 1.5);
+            height: calc(100vh / 1.5);
+            margin: 0 auto;
+            overflow: hidden;
+            background: #fff;
+            border: 3px solid #212529;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .page-wrapper:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .content-wrapper {
+            overflow-y: auto;
+            height: 100%;
+            padding: 1rem;
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: #209cee #f5faff;
+        }
+
+        .content-wrapper::-webkit-scrollbar {
+            width: 8px;
+        }
+        .content-wrapper::-webkit-scrollbar-track {
+            background: #f5faff;
+            border-radius: 4px;
+        }
+        .content-wrapper::-webkit-scrollbar-thumb {
+            background: #209cee;
+            border-radius: 4px;
+            border: 2px solid #f5faff;
+            transition: background 0.3s ease;
+        }
+        .content-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #1a8bd6;
+        }
+
+        header.nes-container {
+            text-align: center;
+            background: #fff;
+            border: 4px solid #212529;
+            box-shadow: 4px 4px 0 #212529;
+            border-radius: 12px 12px 8px 8px;
+            padding: 1rem 0.5rem !important;
+            margin-bottom: 0.5rem !important;
+            transition: all 0.3s ease;
+        }
+
+        header.nes-container:hover {
+            box-shadow: 4px 4px 0 #212529, 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        header.nes-container h1 {
+            font-size: 0.9rem;
+            margin: 0.1rem 0 !important;
+            line-height: 1.2;
+            transition: color 0.3s ease;
+        }
+
+        header.nes-container:hover h1 {
+            color: #209cee;
+        }
+
+        header.nes-container p {
+            margin: 0.1rem 0 !important;
+            font-size: 0.8rem;
+            transition: color 0.3s ease;
+        }
+
+        header.nes-container:hover p {
+            color: #666;
+        }
+
+        .article-container {
+            background: #fff;
+            border: 4px solid #212529;
+            box-shadow: 4px 4px 0 #212529, 0 4px 16px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .article-container:hover {
+            box-shadow: 4px 4px 0 #212529, 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .article-title {
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 0.6rem;
+            transition: color 0.3s ease;
+        }
+
+        .article-container:hover .article-title {
+            color: #209cee;
+        }
+
+        .article-meta {
+            font-size: 0.6rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .article-container:hover .article-meta {
+            color: #555;
+        }
+
+        .article-content.markdown-body {
+            font-size: 0.7rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            max-width: 100%;
+            padding: 0;
+        }
+
+        .back-btn {
+            display: block;
+            margin: 2rem auto 0;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .back-btn:hover::before {
+            left: 100%;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        footer {
+            text-align: center;
+            padding: 0.5rem 0;
+            background: #fff;
+            font-size: 0.6rem;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        footer:hover {
+            color: #209cee;
+        }
+
+        @media (max-width: 800px) {
+            .page-wrapper {
+                transform: none;
+                width: 100%;
+                min-height: 100vh;
+                border-radius: 0;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.8rem;
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: #d9534f;
+            font-size: 0.8rem;
+        }
+
+        .nes-balloon {
+            transition: all 0.3s ease;
+        }
+
+        .nes-balloon:hover {
+            transform: translateY(-2px);
+        }
+
+        .nes-btn {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nes-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .nes-btn.is-error:hover {
+            transform: translateY(-1px) scale(1.02);
+        }
+    </style>
 </head>
 <body>
 <div class="page-wrapper">
@@ -55,7 +286,6 @@
                 <button class="nes-btn is-error" @click="retry">重试</button>
             </div>
 
-            <!-- 4. Markdown内容容器：添加 markdown-body 类名，让GitHub样式生效 -->
             <div v-else class="article-content markdown-body" v-html="article.content || '<p>暂无内容</p>'"></div>
 
             <button
@@ -70,7 +300,85 @@
     </div>
 </div>
 
-<!-- 保留原有辅助脚本（若无需可删除） -->
+<script>
+    const { createApp, ref, onMounted, nextTick } = Vue;
+
+    const app = createApp({
+        setup() {
+            const article = ref({});
+            const loading = ref(true);
+            const error = ref(null);
+
+            const formatTime = (timeStr) => {
+                if (!timeStr) return '';
+                return timeStr.replace('T', ' ');
+            };
+
+            const getArticle = async (id) => {
+                try {
+                    loading.value = true;
+                    error.value = null;
+
+                    const response = await axios.get(`/article/${id}`);
+                    if (response.data) {
+                        article.value = response.data;
+                    } else {
+                        throw new Error('文章数据为空');
+                    }
+
+                    loading.value = false;
+
+                    nextTick(() => {
+                        hljs.highlightAll();
+                    });
+
+                } catch (err) {
+                    console.error("获取文章失败：", err);
+                    loading.value = false;
+                    error.value = `获取文章失败: ${err.message || '未知错误'}`;
+                }
+            };
+
+            const retry = () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get("id") || 1;
+                getArticle(id);
+            };
+
+            onMounted(() => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const id = urlParams.get("id") || 1;
+                getArticle(id);
+            });
+
+            return {
+                article,
+                loading,
+                error,
+                formatTime,
+                retry
+            };
+        },
+    });
+
+    app.mount("#app");
+</script>
+
+<script>
+    const hitokoto = document.querySelector('#hitokoto_text');
+    const hitokoto_author = document.querySelector("#hitokoto_author")
+
+    axios.get('https://hi.logacg.com')
+        .then(({ data }) => {
+            hitokoto.innerText = data.hitokoto
+            hitokoto_author.innerText =
+                data.from && data.from_who ? `${data.from} - ${data.from_who}` :
+                    data.from_who ? data.from_who :
+                        data.from ? data.from : '';
+        })
+        .catch(console.error)
+</script>
+
 <script src="js/loader.js"></script>
 <iframe
         src="fixed-action-buttons.html"
