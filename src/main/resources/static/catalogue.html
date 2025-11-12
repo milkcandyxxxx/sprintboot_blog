@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>奶糖</title>
+
+    <link rel="stylesheet" href="css/nes.css"/>
+    <link rel="stylesheet" href="css/font.css"/>
+    <link rel="stylesheet" href="css/index.css">
+
+    <script src="js/axios.min.js"></script>
+    <script src="js/vue.global.js"></script>
+
+
+</head>
+
+<body>
+<div class="page-wrapper">
+    <header class="nes-container is-centered">
+        <h1>最是人间留不住，朱颜辞镜花辞树</h1>
+    </header>
+
+    <main>
+        <aside class="sidebar nes-container with-title">
+            <p class="title">📂 分类</p>
+            <div class="category-list">
+                <button class="nes-btn category-btn active" onclick="filterArticles(event, '1')">未来与梦</button>
+                <button class="nes-btn category-btn" onclick="filterArticles(event, '2')">拾枝杂谈</button>
+                <button class="nes-btn category-btn " onclick="filterArticles(event, '3')">生活琐碎</button>
+                <button class="nes-btn category-btn" onclick="filterArticles(event, '4')">救病复发</button>
+            </div>
+        </aside>
+        <section class="content" id="app">
+            <div
+                    class="article-card"
+                    v-for="article in articles"
+                    :key="article.id"
+                    :data-category="article.category || '1'"
+            >
+                <h3 class="article-title">{{ article.title }}</h3>
+                <div class="article-meta">
+                    发表于 {{ article.createTime?.replace('T', ' ') }} |
+                    分类：{{ article.categoryText || '未来与梦' }}
+                </div>
+                <p class="article-summary">
+                    {{ article.content?.length > 100 ? article.content.slice(0, 100) + '...' : article.content }}
+                </p>
+                <button class="nes-btn is-success" @click="goarticle(article.id)">查看全文</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>奶糖の糖袋子</footer>
+</div>
+<script src="js/index.js"></script>
+
+<script src="js/loader.js"></script>
+</body>
+</html>

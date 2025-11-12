@@ -3,58 +3,285 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>奶糖</title>
-
+    <title>奶糖 - 总览</title>
+    
+    <!-- 引入现有的样式 -->
     <link rel="stylesheet" href="css/nes.css"/>
     <link rel="stylesheet" href="css/font.css"/>
-    <link rel="stylesheet" href="css/index.css">
-
-    <script src="js/axios.min.js"></script>
-    <script src="js/vue.global.js"></script>
-
-
+    
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(135deg, #ffcae8 0%, #f2e5ff 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            transition: background 0.5s ease;
+        }
+        
+        /* 主标题 */
+        .main-title {
+            text-align: center;
+            margin: 40px 0;
+            color: white;
+            text-shadow: 4px 4px 0px #000;
+            font-size: 24px;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            from { text-shadow: 4px 4px 0px #000, 0 0 20px rgba(255, 255, 255, 0.5); }
+            to { text-shadow: 4px 4px 0px #000, 0 0 30px rgba(255, 255, 255, 0.8); }
+        }
+        
+        /* 卡片容器 */
+        .portal-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        /* 门户卡片 - 结合像素风和新粗体风 */
+        .portal-card {
+            background: #ff66a3;
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .portal-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0 #000;
+        }
+        
+        .portal-card:active {
+            transform: translate(2px, 2px);
+            box-shadow: 4px 4px 0 #000;
+        }
+        
+        /* 卡片头部 */
+        .card-header {
+            background: #fff;
+            padding: 12px;
+            border-bottom: 4px solid #000;
+            font-size: 14px;
+            font-weight: 900;
+            text-align: center;
+        }
+        
+        /* 卡片内容 */
+        .card-content {
+            padding: 20px;
+            text-align: center;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            filter: drop-shadow(2px 2px 0 #000);
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            color: #000;
+        }
+        
+        .card-desc {
+            font-size: 12px;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        /* 不同卡片的配色方案 */
+        .portal-card.intro { background: #4ade80; }
+        .portal-card.articles { background: #1ac2ff; }
+        .portal-card.fun { background: #fbbf24; }
+        .portal-card.about { background: #a78bfa; }
+        
+        /* 返回按钮 */
+        .back-button {
+            margin-top: 40px;
+            padding: 12px 24px;
+            background: #fff;
+            border: 4px solid #000;
+            box-shadow: 4px 4px 0 #000;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .back-button:hover {
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0 #000;
+            background: #f0f0f0;
+        }
+        
+        .back-button:active {
+            transform: translate(3px, 3px);
+            box-shadow: 0 0 0 #000;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .portal-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .main-title {
+                font-size: 18px;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+        
+        /* 动画效果 */
+        .portal-card {
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        .portal-card:nth-child(2) { animation-delay: 0.1s; }
+        .portal-card:nth-child(3) { animation-delay: 0.2s; }
+        .portal-card:nth-child(4) { animation-delay: 0.3s; }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
-
 <body>
-<div class="page-wrapper">
-    <header class="nes-container is-centered">
-        <h1>最是人间留不住，朱颜辞镜花辞树</h1>
-    </header>
-
-    <main>
-        <aside class="sidebar nes-container with-title">
-            <p class="title">📂 分类</p>
-            <div class="category-list">
-                <button class="nes-btn category-btn active" onclick="filterArticles(event, '1')">未来与梦</button>
-                <button class="nes-btn category-btn" onclick="filterArticles(event, '2')">拾枝杂谈</button>
-                <button class="nes-btn category-btn " onclick="filterArticles(event, '3')">生活琐碎</button>
-                <button class="nes-btn category-btn" onclick="filterArticles(event, '4')">救病复发</button>
+    <h1 class="main-title">🍬 奶糖の小窝 🍬</h1>
+    
+    <div class="portal-container">
+        <!-- 自我介绍卡片 -->
+        <div class="portal-card intro" onclick="navigateTo('intro')">
+            <div class="card-header">👤 自我介绍</div>
+            <div class="card-content">
+                <div class="card-icon">🌟</div>
+                <div class="card-title">认识我</div>
+                <div class="card-desc">了解奶糖的故事<br>技术路上的点点滴滴</div>
             </div>
-        </aside>
-        <section class="content" id="app">
-            <div
-                    class="article-card"
-                    v-for="article in articles"
-                    :key="article.id"
-                    :data-category="article.category || '1'"
-            >
-                <h3 class="article-title">{{ article.title }}</h3>
-                <div class="article-meta">
-                    发表于 {{ article.createTime?.replace('T', ' ') }} |
-                    分类：{{ article.categoryText || '未来与梦' }}
-                </div>
-                <p class="article-summary">
-                    {{ article.content?.length > 100 ? article.content.slice(0, 100) + '...' : article.content }}
-                </p>
-                <button class="nes-btn is-success" @click="goarticle(article.id)">查看全文</button>
+        </div>
+        
+        <!-- 文章列表卡片 -->
+        <div class="portal-card articles" onclick="navigateTo('articles')">
+            <div class="card-header">📝 文章列表</div>
+            <div class="card-content">
+                <div class="card-icon">📚</div>
+                <div class="card-title">技术随笔</div>
+                <div class="card-desc">前端后端与生活<br>记录成长的足迹</div>
             </div>
-        </section>
-    </main>
-
-    <footer>奶糖の糖袋子</footer>
-</div>
-<script src="js/index.js"></script>
-
-<script src="js/loader.js"></script>
+        </div>
+        
+        <!-- 趣味角落卡片 -->
+        <div class="portal-card fun" onclick="navigateTo('fun')">
+            <div class="card-header">🎮 趣味角落</div>
+            <div class="card-content">
+                <div class="card-icon">🎯</div>
+                <div class="card-title">小玩意儿</div>
+                <div class="card-desc">有趣的代码片段<br>生活中的小确幸</div>
+            </div>
+        </div>
+        
+        <!-- 关于站点卡片 -->
+        <div class="portal-card about" onclick="navigateTo('about')">
+            <div class="card-header">ℹ️ 关于站点</div>
+            <div class="card-content">
+                <div class="card-icon">🏠</div>
+                <div class="card-title">站点信息</div>
+                <div class="card-desc">技术栈与设计理念<br>构建这个小窝的故事</div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="back-button" onclick="goBack()">返回上一页</button>
+    
+    <script>
+        // 导航函数
+        function navigateTo(page) {
+            // 添加点击动画效果
+            event.currentTarget.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                switch(page) {
+                    case 'intro':
+                        window.location.href = 'intro.html';
+                        break;
+                    case 'articles':
+                        window.location.href = 'catalogue.html';
+                        break;
+                    case 'fun':
+                        window.location.href = 'fun.html';
+                        break;
+                    case 'about':
+                        window.location.href = 'about.html';
+                        break;
+                    default:
+                        console.log('未知页面');
+                }
+            }, 150);
+        }
+        
+        // 返回上一页
+        function goBack() {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                // 如果没有上一页，跳转到文章列表
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // 页面加载动画
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+        
+        // 添加键盘导航支持
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+    </script>
+ <script src="js/loader.js"></script>
 </body>
 </html>
