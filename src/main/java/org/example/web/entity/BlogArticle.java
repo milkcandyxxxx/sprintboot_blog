@@ -52,3 +52,9 @@ public class BlogArticle { // 类名与表名对应，更符合语义
 
     // Lombok 的 @Data 已生成 getter/setter/toString 等，无需手动编写
 }
+
+
+
+
+
+

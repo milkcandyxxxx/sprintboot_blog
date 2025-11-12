@@ -25,10 +25,10 @@
         <aside class="sidebar nes-container with-title">
             <p class="title">📂 分类</p>
             <div class="category-list">
-                <button class="nes-btn category-btn" onclick="filterArticles(event, 'frontend')">前端开发</button>
-                <button class="nes-btn category-btn" onclick="filterArticles(event, 'backend')">后端架构</button>
-                <button class="nes-btn category-btn active" onclick="filterArticles(event, 'tech')">技术随笔</button>
-                <button class="nes-btn category-btn" onclick="filterArticles(event, 'life')">生活记录</button>
+                <button class="nes-btn category-btn active" onclick="filterArticles(event, '1')">未来与梦</button>
+                <button class="nes-btn category-btn" onclick="filterArticles(event, '2')">拾枝杂谈</button>
+                <button class="nes-btn category-btn " onclick="filterArticles(event, '3')">生活琐碎</button>
+                <button class="nes-btn category-btn" onclick="filterArticles(event, '4')">救病复发</button>
             </div>
         </aside>
         <section class="content" id="app">
@@ -36,12 +36,12 @@
                     class="article-card"
                     v-for="article in articles"
                     :key="article.id"
-                    :data-category="article.category || 'tech'"
+                    :data-category="article.category || '1'"
             >
                 <h3 class="article-title">{{ article.title }}</h3>
                 <div class="article-meta">
                     发表于 {{ article.createTime?.replace('T', ' ') }} |
-                    分类：{{ article.categoryText || '技术随笔' }}
+                    分类：{{ article.categoryText || '未来与梦' }}
                 </div>
                 <p class="article-summary">
                     {{ article.content?.length > 100 ? article.content.slice(0, 100) + '...' : article.content }}
