@@ -10,6 +10,18 @@ function filterArticles(event, category) {
     });
 }
 
+// 添加事件监听器
+document.addEventListener('DOMContentLoaded', function() {
+    // 为分类按钮添加点击事件监听
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            const category = this.getAttribute('data-category');
+            filterArticles(event, category);
+        });
+    });
+});
+
 
 const { ref, onMounted, nextTick } = Vue;
 const app = Vue.createApp({
