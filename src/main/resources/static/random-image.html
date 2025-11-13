@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>随机图片 - 奇思妙想</title>
+    
+    <!-- 引入现有的样式 -->
+    <link rel="stylesheet" href="css/nes.css"/>
+    <link rel="stylesheet" href="css/font.css"/>
+    
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            transition: background 0.5s ease;
+        }
+        
+        /* 主标题 */
+        .main-title {
+            text-align: center;
+            margin: 40px 0;
+            color: white;
+            text-shadow: 4px 4px 0px #000;
+            font-size: 24px;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            from { text-shadow: 4px 4px 0px #000, 0 0 20px rgba(255, 255, 255, 0.5); }
+            to { text-shadow: 4px 4px 0px #000, 0 0 30px rgba(255, 255, 255, 0.8); }
+        }
+        
+        /* 内容容器 */
+        .content-container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            background: #fff;
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
+            padding: 30px;
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        /* 页面描述 */
+        .page-description {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        /* 分类选择器 */
+        .category-selector {
+            background: #a78bfa;
+            border: 4px solid #000;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 4px 4px 0 #000;
+        }
+        
+        .selector-header {
+            font-size: 16px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #000;
+        }
+        
+        /* 分类网格 */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .category-button {
+            padding: 12px 16px;
+            background: #fff;
+            border: 3px solid #000;
+            box-shadow: 3px 3px 0 #000;
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        
+        .category-button:hover {
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0 #000;
+            background: #f0f0f0;
+        }
+        
+        .category-button:active {
+            transform: translate(3px, 3px);
+            box-shadow: 0 0 0 #000;
+        }
+        
+        .category-button.active {
+            background: #fbbf24;
+            color: #000;
+        }
+        
+        /* 图片显示区域 */
+        .image-display {
+            text-align: center;
+            margin: 20px 0;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+            border: 3px dashed #000;
+            position: relative;
+        }
+        
+        .image-display.loading {
+            background: #e0e0e0;
+        }
+        
+        .random-image {
+            max-width: 100%;
+            max-height: 600px;
+            border: 3px solid #000;
+            box-shadow: 5px 5px 0 #000;
+            image-rendering: auto;
+        }
+        
+        .placeholder-text {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+        
+        /* 加载动画 */
+        .loading-spinner {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .loading-spinner.show {
+            display: block;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #000;
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 控制按钮 */
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .control-button {
+            padding: 12px 24px;
+            background: #fff;
+            border: 4px solid #000;
+            box-shadow: 4px 4px 0 #000;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .control-button:hover {
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0 #000;
+            background: #f0f0f0;
+        }
+        
+        .control-button:active {
+            transform: translate(3px, 3px);
+            box-shadow: 0 0 0 #000;
+        }
+        
+        .control-button.primary {
+            background: #fbbf24;
+            color: #000;
+        }
+        
+        /* 返回按钮 */
+        .back-button {
+            margin-top: 30px;
+            padding: 12px 24px;
+            background: #fff;
+            border: 4px solid #000;
+            box-shadow: 4px 4px 0 #000;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .back-button:hover {
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0 #000;
+            background: #f0f0f0;
+        }
+        
+        .back-button:active {
+            transform: translate(3px, 3px);
+            box-shadow: 0 0 0 #000;
+        }
+        
+        /* 错误提示 */
+        .error-message {
+            color: #dc2626;
+            font-size: 12px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #fee2e2;
+            border: 2px solid #dc2626;
+            display: none;
+            text-align: center;
+        }
+        
+        .error-message.show {
+            display: block;
+            animation: shake 0.5s ease-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .content-container {
+                padding: 20px;
+            }
+            
+            .category-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .main-title {
+                font-size: 18px;
+            }
+            
+            .control-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 图片信息 */
+        .image-info {
+            background: #f0f0f0;
+            border: 2px solid #000;
+            padding: 10px;
+            margin-top: 15px;
+            font-size: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">🎨 随机图片生成器 🖼️</h1>
+    
+    <div class="content-container">
+        <div class="page-description">
+            🌟 获取随机二次元、风景、动漫图片壁纸！<br>
+            选择分类，点击生成，即可获得精美随机图片～
+        </div>
+        
+        <!-- 分类选择器 -->
+        <div class="category-selector">
+            <div class="selector-header">🎯 选择图片分类</div>
+            
+            <!-- UapiPro服务器图片 -->
+            <div style="margin-bottom: 15px;">
+                <div style="font-size: 11px; font-weight: 900; margin-bottom: 8px; color: #555;">🖥️ UapiPro服务器图片</div>
+                <div class="category-grid" id="uapiproCategories">
+                    <button class="category-button" data-category="acg" data-type="">二次元动漫</button>
+                    <button class="category-button" data-category="acg" data-type="pc">电脑壁纸</button>
+                    <button class="category-button" data-category="acg" data-type="mb">手机壁纸</button>
+                    <button class="category-button" data-category="furry" data-type="">福瑞</button>
+                    <button class="category-button" data-category="furry" data-type="4k">4K福瑞</button>
+                    <button class="category-button" data-category="bq" data-type="">表情包</button>
+                    <button class="category-button" data-category="4k" data-type="">4K壁纸</button>
+                </div>
+            </div>
+            
+            <!-- 外部图床精选图片 -->
+            <div style="margin-bottom: 15px;">
+                <div style="font-size: 11px; font-weight: 900; margin-bottom: 8px; color: #555;">🌐 外部图床精选</div>
+                <div class="category-grid" id="externalCategories">
+                    <button class="category-button" data-category="general_anime" data-type="">动漫图</button>
+                    <button class="category-button" data-category="landscape" data-type="">风景图</button>
+                    <button class="category-button" data-category="mobile_wallpaper" data-type="">手机壁纸</button>
+                    <button class="category-button" data-category="pc_wallpaper" data-type="">电脑壁纸</button>
+                    <button class="category-button" data-category="ai_drawing" data-type="">AI绘画</button>
+                </div>
+            </div>
+            
+            <!-- 混合分类 -->
+            <div>
+                <div style="font-size: 11px; font-weight: 900; margin-bottom: 8px; color: #555;">🎭 混合分类</div>
+                <div class="category-grid" id="mixedCategories">
+                    <button class="category-button" data-category="anime" data-type="">混合动漫</button>
+                    <button class="category-button active" data-category="" data-type="">全局随机</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 图片显示区域 -->
+        <div class="image-display" id="imageDisplay">
+            <div class="placeholder-text" id="placeholderText">
+                🎨 选择分类并点击生成按钮<br>获取随机精美图片～
+            </div>
+            <div class="loading-spinner" id="loadingSpinner">
+                <div class="spinner"></div>
+            </div>
+            <img class="random-image" id="randomImage" style="display: none;" alt="随机图片">
+        </div>
+        
+        <!-- 图片信息 -->
+        <div class="image-info" id="imageInfo" style="display: none;">
+            <div>📊 分类: <span id="currentCategory">-</span> | 🔗 直接链接: <a href="#" id="directLink" target="_blank">点击查看</a></div>
+        </div>
+        
+        <!-- 控制按钮 -->
+        <div class="control-buttons">
+            <button class="control-button primary" id="generateBtn" onclick="generateRandomImage()">🎲 生成随机图片</button>
+            <button class="control-button" onclick="downloadImage()">💾 下载图片</button>
+            <button class="control-button" onclick="openImageInNewTab()">🔗 新标签页打开</button>
+            <button class="control-button" onclick="refreshImage()">🔄 刷新</button>
+        </div>
+        
+        <div id="errorMessage" class="error-message"></div>
+    </div>
+    
+    <button class="back-button" onclick="goBack()">返回奇思妙想</button>
+    
+    <script>
+        // 当前选中的分类
+        let currentCategory = '';
+        let currentType = '';
+        let currentImageUrl = '';
+        
+        // 分类中文名称映射
+        const categoryNames = {
+            '': '全局随机',
+            'acg': '二次元动漫',
+            'furry': '福瑞',
+            'bq': '表情包',
+            '4k': '4K壁纸',
+            'general_anime': '动漫图',
+            'landscape': '风景图',
+            'mobile_wallpaper': '手机壁纸',
+            'pc_wallpaper': '电脑壁纸',
+            'ai_drawing': 'AI绘画',
+            'anime': '混合动漫'
+        };
+        
+        // 初始化分类按钮事件
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.category-button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有active类
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    // 添加active类到当前按钮
+                    this.classList.add('active');
+                    
+                    // 更新当前选中的分类
+                    currentCategory = this.dataset.category;
+                    currentType = this.dataset.type;
+                });
+            });
+        });
+        
+        // 生成随机图片
+        async function generateRandomImage() {
+            const imageDisplay = document.getElementById('imageDisplay');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const placeholderText = document.getElementById('placeholderText');
+            const randomImage = document.getElementById('randomImage');
+            const generateBtn = document.getElementById('generateBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const imageInfo = document.getElementById('imageInfo');
+            
+            // 隐藏错误信息
+            errorMessage.classList.remove('show');
+            
+            // 显示加载状态
+            imageDisplay.classList.add('loading');
+            loadingSpinner.classList.add('show');
+            placeholderText.style.display = 'none';
+            randomImage.style.display = 'none';
+            imageInfo.style.display = 'none';
+            
+            // 禁用生成按钮
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '🎲 加载中...';
+            
+            try {
+                // 构建API URL
+                let apiUrl = 'https://uapis.cn/api/v1/random/image';
+                const params = new URLSearchParams();
+                
+                if (currentCategory) {
+                    params.append('category', currentCategory);
+                }
+                if (currentType) {
+                    params.append('type', currentType);
+                }
+                
+                if (params.toString()) {
+                    apiUrl += '?' + params.toString();
+                }
+                
+                // 添加时间戳防止缓存
+                apiUrl += (apiUrl.includes('?') ? '&' : '?') + 't=' + Date.now();
+                
+                // 预加载图片
+                const img = new Image();
+                img.onload = function() {
+                    // 隐藏加载状态
+                    loadingSpinner.classList.remove('show');
+                    imageDisplay.classList.remove('loading');
+                    
+                    // 显示图片
+                    randomImage.src = apiUrl;
+                    randomImage.style.display = 'block';
+                    currentImageUrl = apiUrl;
+                    
+                    // 显示图片信息
+                    document.getElementById('currentCategory').textContent = categoryNames[currentCategory] || '全局随机';
+                    document.getElementById('directLink').href = apiUrl;
+                    imageInfo.style.display = 'block';
+                    
+                    // 恢复按钮状态
+                    generateBtn.disabled = false;
+                    generateBtn.innerHTML = '🎲 生成随机图片';
+                };
+                
+                img.onerror = function() {
+                    throw new Error('图片加载失败');
+                };
+                
+                img.src = apiUrl;
+                
+            } catch (error) {
+                console.error('生成失败:', error);
+                showError('生成失败: ' + error.message);
+                
+                // 恢复状态
+                loadingSpinner.classList.remove('show');
+                imageDisplay.classList.remove('loading');
+                placeholderText.style.display = 'block';
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '🎲 生成随机图片';
+            }
+        }
+        
+        // 下载图片
+        function downloadImage() {
+            if (!currentImageUrl) {
+                showError('请先生成一张图片！');
+                return;
+            }
+            
+            const link = document.createElement('a');
+            link.href = currentImageUrl;
+            link.download = 'random-image-' + Date.now() + '.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        // 在新标签页打开图片
+        function openImageInNewTab() {
+            if (!currentImageUrl) {
+                showError('请先生成一张图片！');
+                return;
+            }
+            
+            window.open(currentImageUrl, '_blank');
+        }
+        
+        // 刷新当前图片
+        function refreshImage() {
+            if (!currentImageUrl) {
+                showError('请先生成一张图片！');
+                return;
+            }
+            
+            generateRandomImage();
+        }
+        
+        // 显示错误信息
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+            
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                errorMessage.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 返回上一页
+        function goBack() {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = 'fun.html';
+            }
+        }
+        
+        // 页面加载动画
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+        
+        // 添加键盘支持
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.ctrlKey && !e.altKey) {
+                generateRandomImage();
+            } else if (e.key === 'r' && e.ctrlKey) {
+                e.preventDefault();
+                refreshImage();
+            } else if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+        
+        // 图片加载错误处理
+        document.getElementById('randomImage').addEventListener('error', function() {
+            showError('图片加载失败，请重试！');
+            this.style.display = 'none';
+            document.getElementById('loadingSpinner').classList.remove('show');
+            document.getElementById('imageDisplay').classList.remove('loading');
+            document.getElementById('placeholderText').style.display = 'block';
+            document.getElementById('generateBtn').disabled = false;
+            document.getElementById('generateBtn').innerHTML = '🎲 生成随机图片';
+        });
+    </script>
+    
+    <script src="js/loader.js"></script>
+    <iframe
+            src="fixed-action-buttons.html"
+            style="position: fixed; bottom: 0; right: 0; border: none; width: auto; height: auto; z-index: 9999;"
+            frameborder="0"
+            scrolling="no"
+    ></iframe>
+</body>
+</html>
