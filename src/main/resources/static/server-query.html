@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Minecraft 服务器查询 - 奇思妙想</title>
+    
+    <!-- 引入现有的样式 -->
+    <link rel="stylesheet" href="css/nes.css"/>
+    <link rel="stylesheet" href="css/font.css"/>
+    
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(135deg, #4ade80 0%, #16a34a 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            transition: background 0.5s ease;
+        }
+        
+        /* 主标题 */
+        .main-title {
+            text-align: center;
+            margin: 40px 0;
+            color: white;
+            text-shadow: 4px 4px 0px #000;
+            font-size: 24px;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            from { text-shadow: 4px 4px 0px #000, 0 0 20px rgba(255, 255, 255, 0.5); }
+            to { text-shadow: 4px 4px 0px #000, 0 0 30px rgba(255, 255, 255, 0.8); }
+        }
+        
+        /* 内容容器 */
+        .content-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            background: #fff;
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
+            padding: 30px;
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        /* 页面描述 */
+        .page-description {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        /* 查询工具卡片 */
+        .query-tool {
+            background: #4ade80;
+            border: 4px solid #000;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 4px 4px 0 #000;
+        }
+        
+        .tool-header {
+            font-size: 16px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #000;
+        }
+        
+        /* 输入框样式 */
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 900;
+            color: #000;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 3px solid #000;
+            font-family: inherit;
+            font-size: 12px;
+            background: #fff;
+            box-shadow: 3px 3px 0 #000;
+            transition: all 0.2s ease;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0 #000;
+        }
+        
+        /* 按钮样式 */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 12px 24px;
+            background: #fff;
+            border: 4px solid #000;
+            box-shadow: 4px 4px 0 #000;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .action-button:hover {
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0 #000;
+            background: #f0f0f0;
+        }
+        
+        .action-button:active {
+            transform: translate(3px, 3px);
+            box-shadow: 0 0 0 #000;
+        }
+        
+        .action-button.primary {
+            background: #fbbf24;
+            color: #000;
+        }
+        
+        /* 结果显示区域 */
+        .result-container {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f0f0f0;
+            border: 3px solid #000;
+            box-shadow: 3px 3px 0 #000;
+            display: none;
+        }
+        
+        .result-container.show {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 返回按钮 */
+        .back-button {
+            margin-top: 30px;
+            padding: 12px 24px;
+            background: #fff;
+            border: 4px solid #000;
+            box-shadow: 4px 4px 0 #000;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .back-button:hover {
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0 #000;
+            background: #f0f0f0;
+        }
+        
+        .back-button:active {
+            transform: translate(3px, 3px);
+            box-shadow: 0 0 0 #000;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .content-container {
+                padding: 20px;
+            }
+            
+            .main-title {
+                font-size: 18px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+        
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #000;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 错误提示 */
+        .error-message {
+            color: #dc2626;
+            font-size: 12px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #fee2e2;
+            border: 2px solid #dc2626;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+            animation: shake 0.5s ease-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">🎮 Minecraft 服务器查询 🎯</h1>
+    
+    <div class="content-container">
+        <div class="page-description">
+            🌟 输入 Minecraft 服务器地址，查询服务器状态、在线玩家、版本信息等<br>
+            支持 IP:端口 格式，例如: play.example.com:25565
+        </div>
+        
+        <!-- Minecraft 服务器查询工具 -->
+        <div class="query-tool">
+            <div class="tool-header">🔍 Minecraft 服务器状态查询</div>
+            
+            <div class="input-group">
+                <label class="input-label" for="serverInput">服务器地址 (IP:端口):</label>
+                <input type="text" id="serverInput" class="input-field" placeholder="例如: play.example.com:25565" value="play.simpfun.cn:35147">
+            </div>
+            
+            <div class="button-group">
+                <button class="action-button primary" onclick="queryServer()">查询服务器</button>
+                <button class="action-button" onclick="clearResult()">清空结果</button>
+            </div>
+            
+            <div id="errorMessage" class="error-message"></div>
+        </div>
+        
+        <!-- 查询结果显示区域 -->
+        <div id="resultContainer" class="result-container">
+            <div id="queryResult"></div>
+        </div>
+    </div>
+    
+    <button class="back-button" onclick="goBack()">返回奇思妙想</button>
+    
+    <script>
+        // 查询Minecraft服务器
+        async function queryServer() {
+            const serverInput = document.getElementById('serverInput');
+            const resultContainer = document.getElementById('resultContainer');
+            const queryResult = document.getElementById('queryResult');
+            const errorMessage = document.getElementById('errorMessage');
+            const queryButton = event.target;
+            
+            // 清除之前的错误信息
+            errorMessage.classList.remove('show');
+            errorMessage.textContent = '';
+            
+            const serverAddress = serverInput.value.trim();
+            
+            // 验证输入
+            if (!serverAddress) {
+                showError('请输入服务器地址！');
+                return;
+            }
+            
+            // 显示加载状态
+            queryButton.innerHTML = '<span class="loading"></span> 查询中...';
+            queryButton.disabled = true;
+            
+            try {
+                // 构建API URL
+                const apiUrl = `https://uapis.cn/api/v1/game/minecraft/serverstatus?server=${encodeURIComponent(serverAddress)}`;
+                
+                // 发送请求
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP错误! 状态: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // 显示结果
+                displayServerInfo(data, serverAddress);
+                resultContainer.classList.add('show');
+                
+            } catch (error) {
+                console.error('查询失败:', error);
+                showError(`查询失败: ${error.message}`);
+            } finally {
+                // 恢复按钮状态
+                queryButton.innerHTML = '查询服务器';
+                queryButton.disabled = false;
+            }
+        }
+        
+        // 显示服务器信息
+        function displayServerInfo(data, serverAddress) {
+            const queryResult = document.getElementById('queryResult');
+            
+            if (data.error) {
+                queryResult.innerHTML = `
+                    <div style="text-align: center; color: #dc2626;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">❌</div>
+                        <div style="font-size: 14px; font-weight: 900; margin-bottom: 10px;">服务器查询失败</div>
+                        <div style="font-size: 12px; color: #666;">${data.message || '无法连接到服务器'}</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            const status = data.online ? '✅ 在线' : '❌ 离线';
+            const statusColor = data.online ? '#16a34a' : '#dc2626';
+            
+            let html = `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="font-size: 20px; font-weight: 900; margin-bottom: 10px;">🎮 ${serverAddress}</div>
+                    <div style="font-size: 16px; color: ${statusColor}; font-weight: 900;">${status}</div>
+                </div>
+            `;
+            
+            // 服务器图标
+            if (data.favicon_url) {
+                html += `
+                    <div style="text-align: center; margin-bottom: 15px;">
+                        <img src="${data.favicon_url}" alt="服务器图标" style="width: 64px; height: 64px; image-rendering: pixelated; border: 2px solid #000;">
+                    </div>
+                `;
+            }
+            
+            // 服务器描述 - 使用HTML格式显示
+            if (data.online && data.motd_html) {
+                html += `
+                    <div style="background: #fff; border: 2px solid #000; padding: 15px; margin-bottom: 15px;">
+                        <div style="font-size: 12px; font-weight: 900; margin-bottom: 8px;">📋 服务器描述:</div>
+                        <div style="font-size: 11px; line-height: 1.4;">${data.motd_html}</div>
+                    </div>
+                `;
+            } else if (data.online && data.motd_clean) {
+                html += `
+                    <div style="background: #fff; border: 2px solid #000; padding: 15px; margin-bottom: 15px;">
+                        <div style="font-size: 12px; font-weight: 900; margin-bottom: 8px;">📋 服务器描述:</div>
+                        <div style="font-size: 11px; line-height: 1.4; color: #333;">${data.motd_clean.replace(/\\n/g, '<br>')}</div>
+                    </div>
+                `;
+            }
+            
+            // 玩家信息
+            if (data.players !== undefined || data.max_players !== undefined) {
+                html += `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                        <div style="background: #fff; border: 2px solid #000; padding: 10px; text-align: center;">
+                            <div style="font-size: 16px; font-weight: 900; color: #1ac2ff;">${data.players || 0}</div>
+                            <div style="font-size: 10px;">在线玩家</div>
+                        </div>
+                        <div style="background: #fff; border: 2px solid #000; padding: 10px; text-align: center;">
+                            <div style="font-size: 16px; font-weight: 900; color: #4ade80;">${data.max_players || 0}</div>
+                            <div style="font-size: 10px;">最大玩家数</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // 版本信息
+            if (data.version) {
+                html += `
+                    <div style="background: #fff; border: 2px solid #000; padding: 10px; margin-bottom: 10px;">
+                        <div style="font-size: 12px; font-weight: 900;">🔧 版本信息:</div>
+                        <div style="font-size: 11px; color: #333; margin-top: 5px;">${data.version}</div>
+                    </div>
+                `;
+            }
+            
+            // IP地址信息
+            if (data.ip) {
+                html += `
+                    <div style="background: #fff; border: 2px solid #000; padding: 10px; margin-bottom: 10px;">
+                        <div style="font-size: 12px; font-weight: 900;">🌐 服务器IP:</div>
+                        <div style="font-size: 11px; color: #333; margin-top: 5px;">${data.ip}:${data.port || '25565'}</div>
+                    </div>
+                `;
+            }
+            
+            queryResult.innerHTML = html;
+        }
+        
+        // 显示错误信息
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+            
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                errorMessage.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 清空结果
+        function clearResult() {
+            const resultContainer = document.getElementById('resultContainer');
+            const errorMessage = document.getElementById('errorMessage');
+            const serverInput = document.getElementById('serverInput');
+            
+            resultContainer.classList.remove('show');
+            errorMessage.classList.remove('show');
+            serverInput.value = '';
+            
+            setTimeout(() => {
+                document.getElementById('queryResult').innerHTML = '';
+            }, 300);
+        }
+        
+        // 返回上一页
+        function goBack() {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = 'fun.html';
+            }
+        }
+        
+        // 页面加载动画
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+        
+        // 添加键盘支持
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.activeElement.id === 'serverInput') {
+                queryServer();
+            } else if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+        
+        // 输入框焦点效果
+        document.getElementById('serverInput').addEventListener('focus', function() {
+            this.style.background = '#f0f8ff';
+        });
+        
+        document.getElementById('serverInput').addEventListener('blur', function() {
+            this.style.background = '#fff';
+        });
+    </script>
+    
+    <script src="js/loader.js"></script>
+    <iframe
+            src="fixed-action-buttons.html"
+            style="position: fixed; bottom: 0; right: 0; border: none; width: auto; height: auto; z-index: 9999;"
+            frameborder="0"
+            scrolling="no"
+    ></iframe>
+</body>
+</html>
