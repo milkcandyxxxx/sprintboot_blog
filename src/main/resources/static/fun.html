@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>奇思妙想 - 并不有趣的工具</title>
+    
+    <!-- 引入现有的样式 -->
+    <link rel="stylesheet" href="css/nes.css"/>
+    <link rel="stylesheet" href="css/font.css"/>
+    
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            transition: background 0.5s ease;
+        }
+        
+        /* 主标题 */
+        .main-title {
+            text-align: center;
+            margin: 40px 0;
+            color: white;
+            text-shadow: 4px 4px 0px #000;
+            font-size: 24px;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            from { text-shadow: 4px 4px 0px #000, 0 0 20px rgba(255, 255, 255, 0.5); }
+            to { text-shadow: 4px 4px 0px #000, 0 0 30px rgba(255, 255, 255, 0.8); }
+        }
+        
+        /* 页面描述 */
+        .page-description {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+            max-width: 600px;
+        }
+        
+        /* 工具卡片容器 */
+        .tools-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        /* 工具卡片 */
+        .tool-card {
+            background: #fff;
+            border: 4px solid #000;
+            box-shadow: 8px 8px 0 #000;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .tool-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0 #000;
+        }
+        
+        .tool-card:active {
+            transform: translate(2px, 2px);
+            box-shadow: 4px 4px 0 #000;
+        }
+        
+        /* 卡片头部 */
+        .tool-header {
+            background: #fbbf24;
+            padding: 15px;
+            border-bottom: 4px solid #000;
+            font-size: 14px;
+            font-weight: 900;
+            text-align: center;
+        }
+        
+        /* 卡片内容 */
+        .tool-content {
+            padding: 25px;
+            text-align: center;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .tool-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            filter: drop-shadow(2px 2px 0 #000);
+        }
+        
+        .tool-title {
+            font-size: 16px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            color: #000;
+        }
+        
+        .tool-desc {
+            font-size: 11px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        /* 不同工具的配色方案 */
+        .tool-card.minecraft .tool-header { background: #4ade80; }
+        .tool-card.password .tool-header { background: #1ac2ff; }
+        .tool-card.color .tool-header { background: #a78bfa; }
+        .tool-card.countdown .tool-header { background: #f87171; }
+        .tool-card.random-image .tool-header { background: #f59e0b; }
+        
+        /* 返回按钮 */
+        .back-button {
+            margin-top: 40px;
+            padding: 12px 24px;
+            background: #fff;
+            border: 4px solid #000;
+            box-shadow: 4px 4px 0 #000;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .back-button:hover {
+            transform: translate(1px, 1px);
+            box-shadow: 2px 2px 0 #000;
+            background: #f0f0f0;
+        }
+        
+        .back-button:active {
+            transform: translate(3px, 3px);
+            box-shadow: 0 0 0 #000;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .tools-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .main-title {
+                font-size: 18px;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+        
+        /* 动画效果 */
+        .tool-card {
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        .tool-card:nth-child(2) { animation-delay: 0.1s; }
+        .tool-card:nth-child(3) { animation-delay: 0.2s; }
+        .tool-card:nth-child(4) { animation-delay: 0.3s; }
+        .tool-card:nth-child(5) { animation-delay: 0.4s; }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 即将上线标签 */
+        .coming-soon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #dc2626;
+            color: white;
+            font-size: 8px;
+            padding: 4px 8px;
+            border: 2px solid #000;
+            box-shadow: 2px 2px 0 #000;
+            transform: rotate(5deg);
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">🎮 奇思妙想 🎯</h1>
+    
+    <div class="page-description">
+        🌟 欢迎来到奇思妙想！这里收集了一些并不有趣的工具和代码片段<br>
+        选择你感兴趣的工具，开始探索吧～
+    </div>
+    
+    <div class="tools-container">
+        <!-- Minecraft 服务器查询 -->
+        <div class="tool-card minecraft" onclick="navigateToTool('server-query')">
+            <div class="tool-header">🎮 游戏工具</div>
+            <div class="tool-content">
+                <div class="tool-icon">🎯</div>
+                <div class="tool-title">Minecraft 服务器查询</div>
+                <div class="tool-desc">查询 Minecraft 服务器状态<br>在线玩家、版本信息、延迟检测</div>
+            </div>
+        </div>
+        
+        <!-- 随机密码生成器 -->
+        <div class="tool-card password">
+            <div class="tool-header">🔐 安全工具</div>
+            <div class="tool-content">
+                <div class="tool-icon">🔑</div>
+                <div class="tool-title">随机密码生成器</div>
+                <div class="tool-desc">生成安全可靠的随机密码<br>自定义长度和字符类型</div>
+            </div>
+            <div class="coming-soon">即将上线</div>
+        </div>
+        
+        <!-- 颜色代码转换器 -->
+        <div class="tool-card color">
+            <div class="tool-header">🎨 设计工具</div>
+            <div class="tool-content">
+                <div class="tool-icon">🌈</div>
+                <div class="tool-title">颜色代码转换器</div>
+                <div class="tool-desc">RGB、HEX、HSL 互转<br>前端开发必备工具</div>
+            </div>
+            <div class="coming-soon">即将上线</div>
+        </div>
+        
+        <!-- 随机图片生成器 -->
+        <div class="tool-card random-image" onclick="navigateToTool('random-image')">
+            <div class="tool-header">🎨 图片工具</div>
+            <div class="tool-content">
+                <div class="tool-icon">🖼️</div>
+                <div class="tool-title">随机图片生成器</div>
+                <div class="tool-desc">获取随机二次元、风景、动漫图片<br>精美壁纸一键获取</div>
+            </div>
+        </div>
+        
+        <!-- 倒计时工具 -->
+        <div class="tool-card countdown">
+            <div class="tool-header">⏰ 时间管理</div>
+            <div class="tool-content">
+                <div class="tool-icon">⏳</div>
+                <div class="tool-title">倒计时工具</div>
+                <div class="tool-desc">设置重要事件倒计时<br>不错过任何重要时刻</div>
+            </div>
+            <div class="coming-soon">即将上线</div>
+        </div>
+    </div>
+    
+    <script>
+
+        
+        // 返回上一页
+        function goBack() {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // 页面加载动画
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+        
+        // 添加键盘支持
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+    </script>
+    
+    <button class="back-button" onclick="goBack()">返回主页</button>
+    
+    <script>
+        // 导航到具体工具
+        function navigateToTool(tool) {
+            // 添加点击动画效果
+            event.currentTarget.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                switch(tool) {
+                    case 'server-query':
+                        window.location.href = 'server-query.html';
+                        break;
+                    case 'random-image':
+                        window.location.href = 'random-image.html';
+                        break;
+                    default:
+                        console.log('工具开发中...');
+                }
+            }, 150);
+        }
+        
+        // 返回上一页
+        function goBack() {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // 页面加载动画
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+        
+        // 添加键盘导航支持
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+        
+        // 为即将上线的工具添加点击提示
+        document.querySelectorAll('.tool-card:not(.minecraft):not(.random-image)').forEach(card => {
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 添加点击动画
+                this.style.transform = 'scale(0.95)';
+                
+                // 显示提示信息
+                const tooltip = document.createElement('div');
+                tooltip.textContent = '功能开发中，敬请期待！';
+                tooltip.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: #333;
+                    color: white;
+                    padding: 15px 20px;
+                    border: 3px solid #000;
+                    box-shadow: 4px 4px 0 #000;
+                    font-size: 12px;
+                    z-index: 10000;
+                    animation: fadeIn 0.3s ease-out;
+                `;
+                
+                document.body.appendChild(tooltip);
+                
+                setTimeout(() => {
+                    tooltip.remove();
+                    this.style.transform = '';
+                }, 2000);
+            });
+        });
+        
+        // 添加淡入动画样式
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    
+    <script src="js/loader.js"></script>
+    <iframe
+            src="fixed-action-buttons.html"
+            style="position: fixed; bottom: 0; right: 0; border: none; width: auto; height: auto; z-index: 9999;"
+            frameborder="0"
+            scrolling="no"
+    ></iframe>
+</body>
+</html>
